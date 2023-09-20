@@ -1,0 +1,21 @@
+{
+  "name": "pye-community",
+  "version": "1.0.0",
+  "description": "A community bot created for https://discord.gg/programacion (PyE server)",
+  "main": "index.js",
+  "scripts": {
+    "start": "cls && npm run build && node build/index.js",
+    "build": "tsc",
+    "deploy:commands": "tsc && node build/deploy-commands.js"
+  },
+  "author": "Arkirion",
+  "dependencies": {
+    "@discordjs/rest": "^2.0.1",
+    "@types/node": "^20.6.2",
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
