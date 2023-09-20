@@ -1,11 +1,9 @@
 import { Client } from "discord.js";
-import config from './config';
-import * as commandModules from './commands';
-import { deployCommands } from "./deploy-commands";
+import config from "./config";
+import { deploySlashCommands } from "./deploy-commands";
 
-deployCommands()
-
-const commands = Object(commandModules)
+const slashCommands = deploySlashCommands();
+const commands = Object(slashCommands);
 
 export const client = new Client({
   intents: ["Guilds", "GuildMessages", "DirectMessages"],
@@ -13,15 +11,14 @@ export const client = new Client({
 
 client.once("ready", () => {
   console.log("Bot ready");
-})
+});
 
-client.on('interactionCreate', async interaction => {
+client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) {
-    return
+    return;
   }
   const { commandName } = interaction;
-  commands[commandName].execute(interaction, client)
-})
+  commands[commandName].execute(interaction, client);
+});
 
-
-client.login(config.DISCORD_TOKEN)
+client.login(config.DISCORD_TOKEN);
