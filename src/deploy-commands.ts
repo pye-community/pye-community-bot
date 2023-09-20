@@ -1,13 +1,19 @@
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import config from "./config";
-import * as commandModules from "./commands";
+import path from "path"
+import { readdirSync } from "fs";
 
 /** @link https://discordjs.guide/creating-your-bot/command-deployment.html#command-registration */
 export const deployCommands = () => {
   const commands = [];
-  for (const module of Object.values(commandModules)) {
-    commands.push(module.data);
+  const slashCommandsPath = path.join(__dirname, 'commands');
+  const slashCommandsFiles = readdirSync(`${slashCommandsPath}`).filter(file => file.endsWith('.ts'));
+
+  for (const slashCommandFile of slashCommandsFiles) {
+    const slashCommandImported = require(`${slashCommandsPath}/${slashCommandFile}`)
+
+    commands.push(slashCommandImported.data);
   }
 
   const rest = new REST({ version: "9" }).setToken(config.DISCORD_TOKEN);
@@ -19,4 +25,6 @@ export const deployCommands = () => {
       console.log("Succesfully registered application commands.");
     })
     .catch(console.error);
+  
+  
 };
