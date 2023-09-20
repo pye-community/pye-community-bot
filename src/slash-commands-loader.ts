@@ -5,7 +5,7 @@ import path from "path";
 import { readdirSync } from "fs";
 
 /** @link https://discordjs.guide/creating-your-bot/command-deployment.html#command-registration */
-export const deploySlashCommands = () => {
+export const loadSlashCommands = () => {
   const commands = [];
   const slashCommandsPath = path.join(__dirname, "commands");
   const slashCommandsFiles = readdirSync(`${slashCommandsPath}`).filter(
