@@ -1,10 +1,10 @@
-import { Client, Partials, Collection } from 'discord.js'
+import { Client, Partials, GatewayIntentBits } from 'discord.js'
 import config from './config'
 import { loadSlashCommands } from './slash-commands-loader'
 import { loadEvents } from './events-loader'
 
 export const client = new Client({
-  intents: ['Guilds', 'GuildMessages', 'DirectMessages', 'MessageContent'],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages, GatewayIntentBits.MessageContent],
   partials: [Partials.Message, Partials.Channel],
 })
 
