@@ -15,6 +15,8 @@ npm run install
 DISCORD_TOKEN=
 CLIENT_ID=
 GUILD_ID=
+COHERE_AI_API_KEY= # optional
+REPORT_CHANNEL= # optional
 ```
 
 3. Start the bot:
