@@ -13,9 +13,7 @@ export const nsfwFilter = async function (
   message: Message,
   client: Client
 ): Promise<void> {
-  if (!message.member?.joinedAt) return
-
-  if ((new Date().getTime() - message.member.joinedAt.getTime()) / 60000 > 10) return // > 10 minutes ? dont check
+  if (!message.member) return
   if (message.attachments.size === 0) return
   for (const attachment of message.attachments) {
     const url = attachment[1]?.url
@@ -26,7 +24,7 @@ export const nsfwFilter = async function (
     })
     const imageBuffer: Buffer = response.data
 
-    const img = tf.node.decodeImage(imageBuffer, 3) as any // There is a version type problem betweem nsfwjs and tfjs, that's the reason of 'any'
+    const img = tf.node.decodeImage(imageBuffer, 3) as any // There is a version compatibility issue between nsfwjs and tfjs, that's the reason for 'any'
     const prediction = await model.classify(img)
 
     if (['Porn', 'Sexy'].includes(prediction[0].className)) {
