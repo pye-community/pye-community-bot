@@ -1,0 +1,26 @@
+{
+    "$schema": "https://docs.rome.tools/schemas/12.1.3/schema.json",
+    "organizeImports": {
+        "enabled": true
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "style": {
+                "useFragmentSyntax": "off"
+            }
+        }
+    },
+    "formatter": {
+        "enabled": true
+    },
+    "javascript": {
+        "formatter": {
+            "semicolons": "always",
+            "trailingComma": "all",
+            "quoteStyle": "single",
+            "quoteProperties": "preserve"
+        }
+    }
+}
