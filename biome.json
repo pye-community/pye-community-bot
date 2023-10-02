@@ -1,0 +1,26 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.2.2/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"useFragmentSyntax": "off"
+			}
+		}
+	},
+	"formatter": {
+		"enabled": true
+	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "always",
+			"trailingComma": "all",
+			"quoteStyle": "single",
+			"quoteProperties": "preserve"
+		}
+	}
+}
