@@ -6,13 +6,11 @@
  */
 
 type ChannelsConfig = {
-  cohere_channel_exceptions: string[]
-}
+	cohere_channel_exceptions: string[];
+};
 
-const retos_channel = '1141493769699606528'
+const retos_channel = '1141493769699606528';
 
-export const ChannelsConfig : ChannelsConfig = {
-  cohere_channel_exceptions : [
-    retos_channel
-  ]
-}
+export const ChannelsConfig: ChannelsConfig = {
+	cohere_channel_exceptions: [retos_channel],
+};
