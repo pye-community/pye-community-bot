@@ -7,7 +7,8 @@
     "start": "pnpm run build && node build/index.js",
     "clean": "rimraf ./build",
     "prebuild": "pnpm run clean",
-    "build": "tsc"
+    "build": "tsc",
+    "format": "pnpm biome format --write src/"
   },
   "author": "Arkirion",
   "dependencies": {
