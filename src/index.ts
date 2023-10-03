@@ -1,7 +1,7 @@
 import { Client, Partials, GatewayIntentBits } from 'discord.js'
 import config from './config'
-import { loadSlashCommands } from './slash-commands-loader'
-import { loadEvents } from './events-loader'
+import { loadSlashCommands } from './modules/bot/slashCommandsLoader'
+import { loadEvents } from './modules/bot/eventsLoader';
 
 export const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages, GatewayIntentBits.MessageContent],
@@ -18,4 +18,4 @@ client.on('interactionCreate', async (interaction) => {
 
 loadEvents(client)
 
-client.login(config.DISCORD_TOKEN)
+client.login(config.bot.DISCORD_TOKEN)

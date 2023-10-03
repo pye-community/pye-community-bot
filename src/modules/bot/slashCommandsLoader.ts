@@ -20,7 +20,7 @@ export type SlashCommand = {
 export const loadSlashCommands = (): Collection<string, SlashCommand> => {
   const commands = new Collection<string, SlashCommand>()
 
-  const slashCommandsPath = path.join(__dirname, 'commands')
+  const slashCommandsPath = path.join(__dirname, '../../commands')
   const slashCommandsFiles = readdirSync(`${slashCommandsPath}`).filter((file) =>
     file.match(/\.(ts|js)$/)
   )
@@ -30,9 +30,9 @@ export const loadSlashCommands = (): Collection<string, SlashCommand> => {
     commands.set(slashCommandImported.data.name, slashCommandImported)
   }
 
-  const rest = new REST({ version: '9' }).setToken(config.DISCORD_TOKEN)
+  const rest = new REST({ version: '9' }).setToken(config.bot.DISCORD_TOKEN)
   rest
-    .put(Routes.applicationGuildCommands(config.CLIENT_ID, config.GUILD_ID), {
+    .put(Routes.applicationGuildCommands(config.bot.CLIENT_ID, config.bot.GUILD_ID), {
       body: commands.map((command: any) => command.data),
     })
     .then(() => {

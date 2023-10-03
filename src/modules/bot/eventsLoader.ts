@@ -4,7 +4,7 @@ import { Client } from "discord.js";
 
 /** @link https://discordjs.guide/creating-your-bot/event-handling.html#individual-event-files */
 export const loadEvents = (client: Client) => {
-  const eventsPath = path.join(__dirname, "events");
+  const eventsPath = path.join(__dirname, "../../events");
   const eventsFiles = readdirSync(`${eventsPath}`).filter((file) =>
     file.match(/\.(ts|js)$/)
   );

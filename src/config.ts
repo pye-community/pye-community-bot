@@ -7,9 +7,11 @@ if (!CLIENT_ID || !DISCORD_TOKEN || !GUILD_ID ) {
 }
 
 const config = {
-  CLIENT_ID,
-  DISCORD_TOKEN,
-  GUILD_ID
+  bot: {
+    CLIENT_ID,
+    DISCORD_TOKEN,
+    GUILD_ID,
+  }
 }
 
 export default config

@@ -7,7 +7,7 @@ import { ChannelsConfig } from '../../channelsConfig'
 
 dotenv.config()
 
-export const cohereAIHandler = async (thread: ThreadChannel) => {
+export const cohereAiHandler = async (thread: ThreadChannel) => {
   if (typeof thread.parentId !== 'string') return
   if (ChannelsConfig.cohere_channel_exceptions.includes(thread.parentId)) return
 
