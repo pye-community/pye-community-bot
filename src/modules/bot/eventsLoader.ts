@@ -1,6 +1,6 @@
 import { Client, ClientEvents } from 'discord.js';
 import { readdirSync } from 'fs';
-import path from 'path';
+import { join } from 'path';
 
 interface Event {
     name: keyof ClientEvents;
@@ -9,12 +9,15 @@ interface Event {
 }
 
 /** @link https://discordjs.guide/creating-your-bot/event-handling.html#individual-event-files */
+
+
 export const loadEvents = async (client: Client) => {
-    const eventsPath = path.join(__dirname, '..', '..' ,'events');
-    const eventsFiles = readdirSync(`${eventsPath}`).filter((file) => file.match(/\.(ts|js)$/));
-   
+    const eventsPath = join(process.cwd(), 'src', 'events');
+    console.log(eventsPath);
+    const eventsFiles = readdirSync(eventsPath).filter((file) => file.match(/\.(ts|js)$/));
+
     for (const eventFile of eventsFiles) {
-        const event = (await import(path.join(eventsPath, eventFile))) as { default: Event };
+        const event = (await import(join(eventsPath, eventFile))) as { default: Event };
         if (event.default.once) {
             client.once(event.default.name, (...args) => event.default.execute(...args));
         } else {

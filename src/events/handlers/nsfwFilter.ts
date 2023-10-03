@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 import * as nsfwjs from 'nsfwjs';
 import config from '../../config';
 dotenv.config();
-const { REPORT_CHANNEL } = process.env;
 
 let model: nsfwjs.NSFWJS;
 nsfwjs
@@ -29,27 +28,25 @@ export const nsfwFilter = async function (message: Message, client: Client): Pro
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         const prediction = await model.classify(img as any);
 
-        if (['Porn', 'Sexy'].includes(prediction[0].className)) {
-            await message.delete();
-            if (REPORT_CHANNEL) {
-                const reportChannel = client.channels.cache.get(config.channels.reportes_channel);
-                if (reportChannel?.isTextBased()) {
-                    await reportChannel.send({
-                        embeds: [
-                            new EmbedBuilder()
-                                .setColor(0xFF0000)
-                                .setTitle('NSFW filter triggered')
-                                .addFields({ name: 'at', value: `<#${message.channelId}>` })
-                                .addFields({
-                                    name: 'by',
-                                    value: `${message.member.displayName} - ${message.member.id}`,
-                                })
-                                .addFields({ name: 'nsfw content', value: url }),
-                        ],
-                    });
-                }
-            }
-            break;
+        if (!['Porn', 'Sexy'].includes(prediction[0].className)) return;
+        await message.delete();
+
+        const reportChannel = await client.channels.fetch(config.channels.reportes_channel);
+
+        if (reportChannel?.isTextBased()) {
+            await reportChannel.send({
+                embeds: [
+                    new EmbedBuilder()
+                        .setColor(0xff0000)
+                        .setTitle('NSFW filter triggered')
+                        .addFields({ name: 'at', value: `<#${message.channelId}>` })
+                        .addFields({
+                            name: 'by',
+                            value: `${message.member.displayName} - ${message.member.id}`,
+                        })
+                        .addFields({ name: 'nsfw content', value: url }),
+                ],
+            });
         }
     }
 };

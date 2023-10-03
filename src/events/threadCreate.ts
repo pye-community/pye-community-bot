@@ -1,8 +1,7 @@
-import { Events } from 'discord.js';
-import { ThreadChannel } from 'discord.js';
+import { Events, ThreadChannel } from 'discord.js';
 import { cohereAiHandler } from './handlers/cohereAIHandler';
 
-module.exports = {
+export default {
     name: Events.ThreadCreate,
     once: false,
     async execute(thread: ThreadChannel) {

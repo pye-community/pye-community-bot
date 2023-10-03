@@ -15,6 +15,9 @@ export const client = new Client({
 });
 
 const slashCommands = loadSlashCommands();
+
+
+
 client.on('interactionCreate', async (interaction: Interaction) => {
     if (!interaction.isChatInputCommand()) return;
     const { commandName } = interaction;
@@ -22,5 +25,5 @@ client.on('interactionCreate', async (interaction: Interaction) => {
     slashCommand?.execute(interaction, client);
 });
 
-loadEvents(client).catch((err) => {});
-client.login(config.bot.DISCORD_TOKEN).catch((err) => {});
+loadEvents(client).catch((err) => {console.error(err);});
+client.login(config.bot.DISCORD_TOKEN).catch((err) => {console.error(err);});
