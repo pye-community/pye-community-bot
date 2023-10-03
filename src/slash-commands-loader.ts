@@ -6,7 +6,7 @@ import {
   Client,
 } from 'discord.js'
 
-import { Routes } from 'discord-api-types/v9'
+import { Routes } from 'discord.js'
 import config from './config'
 import path from 'path'
 import { readdirSync } from 'fs'

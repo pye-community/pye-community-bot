@@ -4,12 +4,15 @@
   "description": "A community bot created for https://discord.gg/programacion (PyE server)",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node build/index.js",
+    "start": "pnpm run build && node build/index.js",
     "clean": "rimraf ./build",
-    "prebuild": "npm run clean",
+    "prebuild": "pnpm run clean",
+    "dev": "pnpm ts-node-dev --respawn --transpile-only src/index.ts dev",
     "build": "tsc"
   },
-  "author": "Arkirion",
+  "author": {
+    "name": "PyE Community"
+  },
   "dependencies": {
     "@discordjs/rest": "^2.0.1",
     "@tensorflow/tfjs-node": "^4.10.0",
@@ -27,6 +30,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "rimraf": "^5.0.1",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   }
 }
