@@ -10,7 +10,6 @@ interface Event {
 
 /** @link https://discordjs.guide/creating-your-bot/event-handling.html#individual-event-files */
 
-
 export const loadEvents = async (client: Client) => {
     const eventsPath = join(process.cwd(), 'src', 'events');
     console.log(eventsPath);
