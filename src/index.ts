@@ -21,6 +21,4 @@ client.on('interactionCreate', async (interaction: Interaction) => {
     slashCommand?.execute(interaction, client);
 });
 
-loadEvents(client);
-
-client.login(config.bot.DISCORD_TOKEN).catch((err) => {});
+loadEvents(client).catch((err) => {}); client.login(config.bot.DISCORD_TOKEN).catch((err) => {});
