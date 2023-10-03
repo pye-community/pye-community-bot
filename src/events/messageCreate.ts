@@ -7,8 +7,6 @@ export default {
     async execute(message: Message, client: Client) {
         if (message.author.bot) return;
 
-        console.log('ola');
-
         await nsfwFilter(message, client);
     },
 };
