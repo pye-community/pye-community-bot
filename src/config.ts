@@ -12,6 +12,11 @@ const config = {
         DISCORD_TOKEN,
         GUILD_ID,
     },
+
+    /**
+     * TODO: change it, since this bot should be agnostic and not have any server configuration
+     */
+    
     channels: {
         retos_channels: ['1141493769699606528'],
         reportes_channel: '1158551165861109802',
