@@ -13,7 +13,7 @@ export const loadEvents = async (client: Client) => {
     const eventsPath = path.join(__dirname, '../../events');
     const eventsFiles = readdirSync(`${eventsPath}`).filter((file) => file.match(/\.(ts|js)$/));
     for (const eventFile of eventsFiles) {
-        const event = await import(`${eventsPath}/${eventFile}`) as Event;
+        const event = (await import(`${eventsPath}/${eventFile}`)) as Event;
         if (event.once) {
             client.once(event.name, (...args) => event.execute(...args));
         } else {

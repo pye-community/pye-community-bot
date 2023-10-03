@@ -19,8 +19,8 @@ export const loadSlashCommands = async (): Promise<Collection<string, SlashComma
     const slashCommandsFiles = readdirSync(`${slashCommandsPath}`).filter((file) => file.match(/\.(ts|js)$/));
 
     for (const slashCommandFile of slashCommandsFiles) {
-        const slashCommandImported = await import(`${slashCommandsPath}/${slashCommandFile}`) as SlashCommand;
-        commands.set(slashCommandImported.data?.name , slashCommandImported);
+        const slashCommandImported = (await import(`${slashCommandsPath}/${slashCommandFile}`)) as SlashCommand;
+        commands.set(slashCommandImported.data?.name, slashCommandImported);
     }
 
     const rest = new REST({ version: '9' }).setToken(config.bot.DISCORD_TOKEN);

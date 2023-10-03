@@ -40,7 +40,10 @@ export const nsfwFilter = async function (message: Message, client: Client): Pro
                                 .setColor(0xFF0000)
                                 .setTitle('NSFW filter triggered')
                                 .addFields({ name: 'at', value: `<#${message.channelId}>` })
-                                .addFields({ name: 'by', value: `${message.member.displayName} - ${message.member.id}` })
+                                .addFields({
+                                    name: 'by',
+                                    value: `${message.member.displayName} - ${message.member.id}`,
+                                })
                                 .addFields({ name: 'nsfw content', value: url }),
                         ],
                     });

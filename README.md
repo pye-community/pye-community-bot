@@ -11,29 +11,29 @@ Follow these simple steps to run the PyE Community bot on your server:
 
 1. **Install Dependencies:** We recommend using [pnpm](https://pnpm.js.org/) as the package manager for this project. Install dependencies with your preferred package manager:
 
-   ```bash
-   npm install    # if you use npm
-   pnpm install   # if you use pnpm
-   yarn install   # if you use yarn
-   ```
+    ```bash
+    npm install    # if you use npm
+    pnpm install   # if you use pnpm
+    yarn install   # if you use yarn
+    ```
 
 2. **Create a Configuration File:** In the root directory of the project, create a `.env` file and provide the following details:
 
-   ```env
-   DISCORD_TOKEN=
-   CLIENT_ID=
-   GUILD_ID=
-   COHERE_AI_API_KEY=    # (optional)
-   REPORT_CHANNEL=       # (optional)
-   ```
+    ```env
+    DISCORD_TOKEN=
+    CLIENT_ID=
+    GUILD_ID=
+    COHERE_AI_API_KEY=    # (optional)
+    REPORT_CHANNEL=       # (optional)
+    ```
 
 3. **Start the Bot:** Run the following command to start the bot:
 
-   ```bash
-   npm run start    # if you use npm
-   pnpm run start   # if you use pnpm
-   yarn start       # if you use yarn
-   ```
+    ```bash
+    npm run start    # if you use npm
+    pnpm run start   # if you use pnpm
+    yarn start       # if you use yarn
+    ```
 
 ## Contributing
 

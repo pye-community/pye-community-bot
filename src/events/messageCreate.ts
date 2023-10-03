@@ -1,5 +1,5 @@
-import { Client, Events, Message } from "discord.js";
-import { nsfwFilter } from "./handlers/nsfwFilter";
+import { Client, Events, Message } from 'discord.js';
+import { nsfwFilter } from './handlers/nsfwFilter';
 
 export default {
     name: Events.MessageCreate,

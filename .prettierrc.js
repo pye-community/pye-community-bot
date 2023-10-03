@@ -1,5 +1,5 @@
 module.exports = {
-    plugins: ['unicorn'],
+    plugins: [require('eslint-plugin-unicorn')],
     trailingComma: 'es5',
     tabWidth: 4,
     semi: true,
