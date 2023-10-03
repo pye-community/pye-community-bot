@@ -6,7 +6,7 @@ PyE Community is a bot for discord.gg/programacion which has the milestone to bu
 1. Install dependencies:
 
 ```bash
-npm run install
+pnpm run install
 ```
 
 2. Create a `.env` file in the root directory:
