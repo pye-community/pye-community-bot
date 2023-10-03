@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Client, EmbedBuilder, Message } from 'discord.js';
 import dotenv from 'dotenv';
 import * as nsfwjs from 'nsfwjs';
+import config from '../../config';
 dotenv.config();
 const { REPORT_CHANNEL } = process.env;
 
@@ -31,7 +32,7 @@ export const nsfwFilter = async function (message: Message, client: Client): Pro
         if (['Porn', 'Sexy'].includes(prediction[0].className)) {
             await message.delete();
             if (REPORT_CHANNEL) {
-                const reportChannel = client.channels.cache.get('1144840299630313582');
+                const reportChannel = client.channels.cache.get(config.channels.reportes_channel);
                 if (reportChannel?.isTextBased()) {
                     await reportChannel.send({
                         embeds: [
