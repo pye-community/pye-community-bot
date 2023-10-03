@@ -12,6 +12,10 @@ const config = {
         DISCORD_TOKEN,
         GUILD_ID,
     },
+    channels: {
+        retos_channels: ['1141493769699606528'],
+        reportes_channel: '1144840299630313582',
+    }
 };
 
 export default config;
