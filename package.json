@@ -1,36 +1,41 @@
 {
-  "name": "pye-community",
-  "version": "1.0.0",
-  "description": "A community bot created for https://discord.gg/programacion (PyE server)",
-  "main": "index.js",
-  "scripts": {
-    "start": "pnpm run build && node build/index.js",
-    "clean": "rimraf ./build",
-    "prebuild": "pnpm run clean",
-    "dev": "pnpm ts-node-dev --respawn --transpile-only src/index.ts dev",
-    "build": "tsc"
-  },
-  "author": {
-    "name": "PyE Community"
-  },
-  "dependencies": {
-    "@discordjs/rest": "^2.0.1",
-    "@tensorflow/tfjs-node": "^4.10.0",
-    "@types/node": "^20.6.2",
-    "axios": "^1.5.0",
-    "cohere-ai": "^6.2.2",
-    "discord.js": "^14.13.0",
-    "dotenv": "^16.3.1",
-    "google-translate-api-x": "^10.6.7",
-    "nsfwjs": "^2.4.2"
-  },
-  "engines": {
-    "node": "<=18.16.1"
-  },
-  "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "rimraf": "^5.0.1",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.2.2"
-  }
+    "name": "pye-community",
+    "version": "1.0.0",
+    "description": "A community bot created for https://discord.gg/programacion (PyE server)",
+    "main": "index.js",
+    "scripts": {
+        "start": "pnpm run build && node build/index.js",
+        "clean": "rimraf ./build",
+        "prebuild": "pnpm run clean",
+        "dev": "pnpm ts-node-dev --respawn --transpile-only src/index.ts dev",
+        "build": "tsc"
+    },
+    "author": {
+        "name": "PyE Community"
+    },
+    "dependencies": {
+        "@discordjs/rest": "^2.0.1",
+        "@tensorflow/tfjs-node": "^4.10.0",
+        "axios": "^1.5.0",
+        "cohere-ai": "^6.2.2",
+        "discord.js": "^14.13.0",
+        "dotenv": "^16.3.1",
+        "google-translate-api-x": "^10.6.7",
+        "nsfwjs": "^2.4.2"
+    },
+    "engines": {
+        "node": ">=18.16.1"
+    },
+    "devDependencies": {
+        "@types/axios": "^0.14.0",
+        "@types/node": "^20.6.2",
+        "@typescript-eslint/eslint-plugin": "^6.7.4",
+        "@typescript-eslint/parser": "^6.7.4",
+        "eslint": "^8.50.0",
+        "eslint-plugin-unicorn": "^48.0.1",
+        "rimraf": "^5.0.1",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.2.2",
+        "typescript-eslint": "0.0.1-alpha.0"
+    }
 }
