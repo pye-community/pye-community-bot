@@ -3,7 +3,7 @@
 [![Discord](https://img.shields.io/discord/768278151435386900?color=7289da&label=discord&logo=discord&logoColor=white)](https://discord.gg/programacion)
 [![GitHub](https://img.shields.io/github/license/pye-community/pye-community-bot)](https://github.com/pye-community/pye-community-bot)
 
-PyE Community is a bot for discord.gg/programacion which has the milestone to build between all members a bot that helps with user needs in order to enjoy a better experience on the server.
+PyE Community is a bot for [discord.gg/programacion](https://discord.com/invite/programacion) which has the milestone to build between all members a bot that helps with user needs in order to enjoy a better experience on the server.
 
 ## Run the bot
 
