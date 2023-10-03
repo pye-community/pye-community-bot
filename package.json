@@ -8,7 +8,9 @@
         "clean": "rimraf ./build",
         "prebuild": "pnpm run clean",
         "dev": "pnpm ts-node-dev --respawn --transpile-only src/index.ts dev",
-        "build": "tsc"
+        "build": "tsc",
+        "lint": "eslint . --ext .ts",
+        "lint:fix": "eslint . --ext .ts --fix"
     },
     "author": {
         "name": "PyE Community"
