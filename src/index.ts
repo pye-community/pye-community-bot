@@ -11,6 +11,7 @@ export const client = new Client({
         GatewayIntentBits.MessageContent,
     ],
     partials: [Partials.Message, Partials.Channel],
+    allowedMentions: {'parse': ['users']},
 });
 
 const slashCommands = loadSlashCommands();
