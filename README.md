@@ -1,42 +1,46 @@
-# PyE Community
-    
-[![Discord](https://img.shields.io/discord/768278151435386900?color=7289da&label=discord&logo=discord&logoColor=white)](https://discord.gg/programacion)
+# PyE Community - README
+
+[![Discord](https://img.shields.io/discord/768278151435386900?color=7289da&label=Join%20Us%20on%20Discord&logo=discord&logoColor=white)](https://discord.gg/programacion)
 [![GitHub](https://img.shields.io/github/license/pye-community/pye-community-bot)](https://github.com/pye-community/pye-community-bot)
 
-PyE Community is a bot for [discord.gg/programacion](https://discord.com/invite/programacion) which has the milestone to build between all members a bot that helps with user needs in order to enjoy a better experience on the server.
+Welcome to the PyE Community! Our Discord bot is designed to enhance your experience on [discord.gg/programacion](https://discord.com/invite/programacion) by providing valuable features and assistance to our members.
 
-## Run the bot
+## Getting Started
 
-1. Install dependencies (the recommended package manager is [pnpm](https://pnpm.js.org/)):
+Follow these simple steps to run the PyE Community bot on your server:
 
-```bash
-npm install # if you use npm
-pnpm install # if you use pnpm
-yarn install # if you use yarn
-```
+1. **Install Dependencies:** We recommend using [pnpm](https://pnpm.js.org/) as the package manager for this project. Install dependencies with your preferred package manager:
 
-2. Create a `.env` file in the root directory:
+   ```bash
+   npm install    # if you use npm
+   pnpm install   # if you use pnpm
+   yarn install   # if you use yarn
+   ```
 
-```env
-DISCORD_TOKEN=
-CLIENT_ID=
-GUILD_ID=
-COHERE_AI_API_KEY= # optional
-REPORT_CHANNEL= # optional
-```
+2. **Create a Configuration File:** In the root directory of the project, create a `.env` file and provide the following details:
 
-3. Start the bot:
+   ```env
+   DISCORD_TOKEN=
+   CLIENT_ID=
+   GUILD_ID=
+   COHERE_AI_API_KEY=    # (optional)
+   REPORT_CHANNEL=       # (optional)
+   ```
 
-```bash
-npm run start # if you use npm
-pnpm run start # if you use pnpm
-yarn start # if you use yarn
-```
+3. **Start the Bot:** Run the following command to start the bot:
+
+   ```bash
+   npm run start    # if you use npm
+   pnpm run start   # if you use pnpm
+   yarn start       # if you use yarn
+   ```
 
 ## Contributing
 
-We welcome contributions from the community. If you have any ideas or improvements, please open an issue to discuss them before submitting a pull request.
+We value contributions from our community members. If you have any ideas or improvements, please open an issue to discuss them before submitting a pull request.
 
 ## License
 
 This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/). Feel free to use and modify it according to your needs.
+
+---
