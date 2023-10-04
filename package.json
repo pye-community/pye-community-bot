@@ -28,9 +28,6 @@
     "google-translate-api-x": "^10.6.7",
     "nsfwjs": "^2.4.2"
   },
-  "engines": {
-    "node": ">=18.16.1"
-  },
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
