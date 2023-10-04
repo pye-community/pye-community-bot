@@ -12,7 +12,10 @@ nsfwjs
   .then((r) => (model = r))
   .catch((err) => console.log(err));
 
-export const nsfwFilter = async function (message: Message, client: Client): Promise<void> {
+export const nsfwFilter = async function (
+  message: Message,
+  client: Client
+): Promise<void> {
   if (!message.member) return;
   if (message.attachments.size === 0) return;
   for (const attachment of message.attachments) {
@@ -31,7 +34,9 @@ export const nsfwFilter = async function (message: Message, client: Client): Pro
     if (!['Porn', 'Sexy'].includes(prediction[0].className)) return;
     await message.delete();
 
-    const reportChannel = await client.channels.fetch(config.channels.reportes_channel);
+    const reportChannel = await client.channels.fetch(
+      config.channels.reportes_channel
+    );
 
     if (reportChannel?.isTextBased()) {
       await reportChannel.send({

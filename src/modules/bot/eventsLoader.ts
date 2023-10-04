@@ -11,14 +11,22 @@ interface Event {
 /** @link https://discordjs.guide/creating-your-bot/event-handling.html#individual-event-files */
 export const loadEvents = async (client: Client) => {
   const eventsPath = join(process.cwd(), 'src', 'events');
-  const eventsFiles = readdirSync(eventsPath).filter((file) => file.match(/\.(ts|js)$/));
+  const eventsFiles = readdirSync(eventsPath).filter((file) =>
+    file.match(/\.(ts|js)$/)
+  );
 
   for (const eventFile of eventsFiles) {
-    const event = (await import(join(eventsPath, eventFile))) as { default: Event };
+    const event = (await import(join(eventsPath, eventFile))) as {
+      default: Event;
+    };
     if (event.default.once) {
-      client.once(event.default.name, (...args) => event.default.execute(...args));
+      client.once(event.default.name, (...args) =>
+        event.default.execute(...args)
+      );
     } else {
-      client.on(event.default.name, (...args) => event.default.execute(...args, client));
+      client.on(event.default.name, (...args) =>
+        event.default.execute(...args, client)
+      );
     }
   }
 };

@@ -13,7 +13,9 @@ export const cohereAiHandler = async (thread: ThreadChannel) => {
   if (thread.parent?.type == ChannelType.GuildForum) {
     const { COHERE_AI_API_KEY } = process.env;
     if (!COHERE_AI_API_KEY) {
-      console.warn('COHERE_AI_API_KEY is not set, the AI will not work until api key is set');
+      console.warn(
+        'COHERE_AI_API_KEY is not set, the AI will not work until api key is set'
+      );
       return;
     }
     cohere.init(COHERE_AI_API_KEY);
