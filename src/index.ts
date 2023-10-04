@@ -1,21 +1,31 @@
-import { Client, Partials, GatewayIntentBits } from 'discord.js'
-import config from './config'
-import { loadSlashCommands } from './slash-commands-loader'
-import { loadEvents } from './events-loader'
+import { Client, GatewayIntentBits, Interaction, Partials } from 'discord.js';
+import config from './config';
+import { loadEvents } from './modules/bot/eventsLoader';
+import { loadSlashCommands } from './modules/bot/slashCommandsLoader';
 
 export const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages, GatewayIntentBits.MessageContent],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.MessageContent,
+  ],
   partials: [Partials.Message, Partials.Channel],
-})
+  allowedMentions: { parse: ['users'] },
+});
 
-const slashCommands = loadSlashCommands()
-client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isChatInputCommand()) return
-  const { commandName } = interaction
-  const slashCommand = slashCommands.get(commandName)
-  slashCommand?.execute(interaction, client)
-})
+const slashCommands = loadSlashCommands();
 
-loadEvents(client)
+client.on('interactionCreate', async (interaction: Interaction) => {
+  if (!interaction.isChatInputCommand()) return;
+  const { commandName } = interaction;
+  const slashCommand = (await slashCommands).get(commandName);
+  slashCommand?.execute(interaction, client);
+});
 
-client.login(config.DISCORD_TOKEN)
+loadEvents(client).catch((err) => {
+  console.error(err);
+});
+client.login(config.bot.DISCORD_TOKEN).catch((err) => {
+  console.error(err);
+});
