@@ -6,7 +6,7 @@ import config from '../../config';
 
 dotenv.config();
 
-export const cohereAiHandler = async (thread: ThreadChannel) => {
+export const cohereAIHandler = async (thread: ThreadChannel) => {
   if (typeof thread.parentId !== 'string') return;
   if (config.channels.retos_channels.includes(thread.parentId)) return;
 
