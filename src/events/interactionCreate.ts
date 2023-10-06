@@ -1,5 +1,5 @@
-import { Client, Events, Interaction } from "discord.js";
-import { loadSlashCommands } from "../modules/bot/slashCommandsLoader";
+import { Client, Events, Interaction } from 'discord.js';
+import { loadSlashCommands } from '../modules/bot/slashCommandsLoader';
 
 const slashCommands = loadSlashCommands();
 
@@ -11,5 +11,5 @@ export default {
     const { commandName } = interaction;
     const slashCommand = (await slashCommands).get(commandName);
     slashCommand?.execute(interaction, client);
-  }
+  },
 };
