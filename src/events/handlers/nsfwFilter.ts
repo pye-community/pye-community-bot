@@ -35,7 +35,7 @@ export const nsfwFilter = async function (
     await message.delete();
 
     const reportChannel = await client.channels.fetch(
-      config.channels.reportes_channel
+      config.channels.reports_channel
     );
 
     if (reportChannel?.isTextBased()) {

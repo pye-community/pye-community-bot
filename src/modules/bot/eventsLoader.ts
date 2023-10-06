@@ -10,7 +10,11 @@ interface Event {
 
 /** @link https://discordjs.guide/creating-your-bot/event-handling.html#individual-event-files */
 export const loadEvents = async (client: Client) => {
-  const eventsPath = join(process.cwd(), 'src', 'events');
+  const eventsPath = join(
+    process.cwd(),
+    process.argv.includes('dev') ? 'src' : 'build',
+    'events'
+  );
   const eventsFiles = readdirSync(eventsPath).filter((file) =>
     file.match(/\.(ts|js)$/)
   );

@@ -22,7 +22,11 @@ export const loadSlashCommands = async (): Promise<
 > => {
   const commands = new Collection<string, SlashCommand>();
 
-  const slashCommandsPath = path.join(process.cwd(), 'src', 'commands');
+  const slashCommandsPath = path.join(
+    process.cwd(),
+    process.argv.includes('dev') ? 'src' : 'build',
+    'commands'
+  );
   const slashCommandsFiles = readdirSync(`${slashCommandsPath}`).filter(
     (file) => file.match(/\.(ts|js)$/)
   );

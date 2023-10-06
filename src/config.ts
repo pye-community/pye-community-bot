@@ -18,8 +18,8 @@ const config = {
    */
 
   channels: {
-    retos_channels: ['1141493769699606528'],
-    reportes_channel: '1158551165861109802',
+    challenges_channel: ['1141493769699606528'],
+    reports_channel: '1158551165861109802',
   },
 };
 
