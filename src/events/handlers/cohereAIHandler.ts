@@ -8,7 +8,7 @@ dotenv.config();
 
 export const cohereAIHandler = async (thread: ThreadChannel) => {
   if (typeof thread.parentId !== 'string') return;
-  if (config.channels.retos_channels.includes(thread.parentId)) return;
+  if (config.channels.challenges_channel.includes(thread.parentId)) return;
 
   if (thread.parent?.type == ChannelType.GuildForum) {
     const { COHERE_AI_API_KEY } = process.env;
