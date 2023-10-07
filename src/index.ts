@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits, Partials } from 'discord.js';
 import config from './config';
-import { loadEvents } from './modules/bot/eventsLoader';
+import { clientHandlers } from './modules/bot/handlers';
 
 export const client = new Client({
   intents: [
@@ -13,9 +13,10 @@ export const client = new Client({
   allowedMentions: { parse: ['users'] },
 });
 
-loadEvents(client).catch((err) => {
-  console.error(err);
-});
+export const loader = new clientHandlers(client).loadSlashCommands().then(async (a) => {
+  return await a.loadEvents();
+}).catch((err) => { console.error(err); });
+
 client.login(config.bot.DISCORD_TOKEN).catch((err) => {
   console.error(err);
 });
