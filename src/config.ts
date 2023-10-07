@@ -8,7 +8,7 @@ if (!CLIENT_ID || !DISCORD_TOKEN || !GUILD_ID) {
 
 const config = {
   bot: {
-    CLIENT_ID,
+    CLIENT_ID: CLIENT_ID,
     DISCORD_TOKEN,
     GUILD_ID,
   },
