@@ -15,13 +15,13 @@ export const client = new Client({
 
 export const loader = new clientHandlers(client)
   .loadSlashCommands()
-  .then(async (a) => {
+  .then(async a => {
     return await a.loadEvents();
   })
-  .catch((err) => {
+  .catch(err => {
     console.error(err);
   });
 
-client.login(config.bot.DISCORD_TOKEN).catch((err) => {
+client.login(config.bot.DISCORD_TOKEN).catch(err => {
   console.error(err);
 });

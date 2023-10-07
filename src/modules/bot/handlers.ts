@@ -51,7 +51,7 @@ export class clientHandlers {
       this.commands.set(command.data.name, command);
     }
 
-    await this.registerSlashCommands(this.commands.map((command) => command));
+    await this.registerSlashCommands(this.commands.map(command => command));
     return this;
   }
 
@@ -63,7 +63,7 @@ export class clientHandlers {
           config.bot.CLIENT_ID,
           config.bot.GUILD_ID
         ),
-        { body: commands.map((command) => command.data) }
+        { body: commands.map(command => command.data) }
       )
       .then(() => console.log('Successfully registered application commands.'))
       .catch(console.error);
@@ -86,13 +86,11 @@ export class clientHandlers {
 
       if (!/\.(ts|js)$/.test(file)) continue;
       const event = (await import(filePath)) as { default: Event };
-      event.default.once
-        ? this.client.once(event.default.name, (...args) =>
-          event.default.execute(...args)
-        )
-        : this.client.on(event.default.name, (...args) =>
-          event.default.execute(...args, this.client)
-        );
+      (event.default.once ? this.client.once : this.client.on).call(
+        this.client,
+        event.default.name,
+        event.default.execute
+      );
     }
 
     return this;

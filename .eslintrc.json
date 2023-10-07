@@ -9,19 +9,14 @@
   "parserOptions": {
     "warnOnUnsupportedTypeScriptVersion": false,
     "tsconfigRootDir": "./",
-    "project": [
-      "./tsconfig.json"
-    ],
+    "project": ["./tsconfig.json"],
     "sourceType": "module",
     "ecmaVersion": 2022,
     "ecmaFeatures": {
       "impliedStrict": true
     }
   },
-  "plugins": [
-    "@typescript-eslint",
-    "unicorn"
-  ],
+  "plugins": ["@typescript-eslint", "unicorn"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -70,17 +65,8 @@
         "allowImplicit": true
       }
     ],
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
+    "indent": ["error", 2],
+    "semi": ["error", "always"],
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/unbound-method": "off",
     "@typescript-eslint/no-explicit-any": "off",

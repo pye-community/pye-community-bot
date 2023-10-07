@@ -9,8 +9,8 @@ dotenv.config();
 let model: nsfwjs.NSFWJS;
 nsfwjs
   .load()
-  .then((r) => (model = r))
-  .catch((err) => console.log(err));
+  .then(r => (model = r))
+  .catch(err => console.log(err));
 
 export const nsfwFilter = async function (
   message: Message,
