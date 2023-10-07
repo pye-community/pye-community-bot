@@ -81,7 +81,7 @@ export class clientHandlers {
       const stat = lstatSync(filePath);
       if (stat.isDirectory()) {
         await this.loadEvents(join(dir, file));
-        continue;
+        return this;
       }
 
       if (!/\.(ts|js)$/.test(file)) continue;
