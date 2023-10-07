@@ -23,12 +23,22 @@ export default class PYECommunityClient extends Client {
   }
 
   handler: clientHandlers = new clientHandlers(this);
-  commands: Collection<string, SlashCommand> = new Collection();
+  commands: Collection<string, SlashCommand> = new Collection<
+    string,
+    SlashCommand
+  >();
 
   public async login(token?: string | undefined): Promise<string> {
-    await this.handler.loadEvents();
-    await this.handler.loadSlashCommands();
+    Promise.all([
+      this.handler.loadEvents().catch(console.error),
+      this.handler.loadSlashCommands().catch(console.error),
+    ]).catch(console.error);
 
-    return await super.login(token);
+    const client = await super.login(token);
+    await this.handler
+      .registerSlashCommands(this.commands.map(c => c))
+      .catch(console.error);
+
+    return client;
   }
 }

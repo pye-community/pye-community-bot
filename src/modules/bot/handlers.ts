@@ -42,17 +42,13 @@ export class clientHandlers {
 
       if (stat.isDirectory()) {
         await this.loadSlashCommands(join(dir, file));
-        return this;
+        continue;
       }
 
       if (!/\.(ts|js)$/.test(file)) continue;
       const command = (await import(filePath)) as SlashCommand;
       this.client.commands.set(command.data.name, command);
     }
-
-    await this.registerSlashCommands(
-      this.client.commands.map(command => command)
-    );
     return this;
   }
 
@@ -76,21 +72,24 @@ export class clientHandlers {
       process.argv.includes('dev') ? 'src' : 'build'
     );
     const files = readdirSync(join(basePath, dir));
-
     for (const file of files) {
       const filePath = join(basePath, dir, file);
       const stat = lstatSync(filePath);
+
       if (stat.isDirectory()) {
-        await this.loadEvents(join(dir, file));
-        return this;
+        await this.loadEvents(join(dir, file)).catch(console.error);
+        continue;
       }
 
       if (!/\.(ts|js)$/.test(file)) continue;
       const event = (await import(filePath)) as { default: Event };
-      (event.default.once ? this.client.once : this.client.on).call(
+      if (!event.default) continue;
+      const { name, once, execute } = event.default;
+
+      (once ? this.client.once : this.client.on).call(
         this.client,
-        event.default.name,
-        event.default.execute
+        name,
+        execute.bind(null, this.client)
       );
     }
 
