@@ -1,16 +1,19 @@
 import {
-  Client,
   Colors,
   CommandInteraction,
   EmbedBuilder,
   SlashCommandBuilder,
 } from 'discord.js';
+import PYECommunityClient from 'modules/bot/client';
 
 export const data = new SlashCommandBuilder()
   .setName('ping')
   .setDescription('replies with pong');
 
-export async function execute(interaction: CommandInteraction, client: Client) {
+export async function execute(
+  interaction: CommandInteraction,
+  client: PYECommunityClient
+) {
   const time = Date.now();
 
   await interaction.reply({

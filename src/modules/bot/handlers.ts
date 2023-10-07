@@ -1,7 +1,6 @@
 import {
   Client,
   ClientEvents,
-  Collection,
   CommandInteraction,
   REST,
   Routes,
@@ -10,23 +9,23 @@ import {
 import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
 import config from '../../config';
+import PYECommunityClient from './client';
 
-export type SlashCommand = {
+export interface SlashCommand {
   data: SlashCommandBuilder;
   execute: (interaction: CommandInteraction, client?: Client) => void;
-};
+}
 
-interface Event {
+export interface Event {
   name: keyof ClientEvents;
   once: boolean;
   execute: (...args: any[]) => void;
 }
 
 export class clientHandlers {
-  client: Client;
-  commands: Collection<string, SlashCommand> = new Collection();
+  client: PYECommunityClient;
 
-  constructor(client: Client) {
+  constructor(client: PYECommunityClient) {
     this.client = client;
   }
 
@@ -48,10 +47,12 @@ export class clientHandlers {
 
       if (!/\.(ts|js)$/.test(file)) continue;
       const command = (await import(filePath)) as SlashCommand;
-      this.commands.set(command.data.name, command);
+      this.client.commands.set(command.data.name, command);
     }
 
-    await this.registerSlashCommands(this.commands.map(command => command));
+    await this.registerSlashCommands(
+      this.client.commands.map(command => command)
+    );
     return this;
   }
 
