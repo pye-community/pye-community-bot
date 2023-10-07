@@ -21,6 +21,10 @@ const config = {
     challenges_channel: ['1141493769699606528'],
     reports_channel: '1158551165861109802',
   },
+  users: {
+    owners: ['341077056026705930', '254720311717658624'],
+    developers: ['401845716991082496', '852588734104469535'],
+  },
 };
 
 export default config;

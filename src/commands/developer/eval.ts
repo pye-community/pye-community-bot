@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { Colors, CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { Colors, CommandInteraction } from 'discord.js';
 import { inspect } from 'util';
+import { CommandBuilder } from './../../modules/bot/handlers';
 
-export const data = new SlashCommandBuilder()
+export const data = new CommandBuilder()
   .setName('eval')
   .setDescription('Evalúa un código de JavaScript')
+  .setCategory('developer')
+  .setDeveloper(true)
   .addStringOption(option =>
     option
       .setName('code')
@@ -25,7 +28,8 @@ export const data = new SlashCommandBuilder()
       .setName('secret')
       .setDescription('Si el código es secreto')
       .setRequired(false)
-  );
+  )
+  .setCooldown(0);
 
 export async function execute(interaction: CommandInteraction) {
   const code = interaction.options.get('code')?.value as string,

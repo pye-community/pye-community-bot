@@ -1,5 +1,5 @@
 import { Events, Message } from 'discord.js';
-import PYECommunityClient from 'modules/bot/client';
+import PYECommunityClient from '../modules/bot/client';
 import { nsfwFilter } from '../modules/utils/nsfwFilter';
 
 export default {

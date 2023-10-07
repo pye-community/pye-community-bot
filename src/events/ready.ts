@@ -1,6 +1,6 @@
 // const { Events } = require('discord.js');
 import { Events } from 'discord.js';
-import PYECommunityClient from 'modules/bot/client';
+import PYECommunityClient from '../modules/bot/client';
 
 export default {
   name: Events.ClientReady,

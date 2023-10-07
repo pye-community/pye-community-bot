@@ -27,6 +27,10 @@ export default class PYECommunityClient extends Client {
     string,
     SlashCommand
   >();
+  cooldowns: Collection<string, Collection<string, number>> = new Collection<
+    string,
+    Collection<string, number>
+  >();
 
   public async login(token?: string | undefined): Promise<string> {
     Promise.all([

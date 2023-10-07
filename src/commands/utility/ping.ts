@@ -1,14 +1,11 @@
-import {
-  Colors,
-  CommandInteraction,
-  EmbedBuilder,
-  SlashCommandBuilder,
-} from 'discord.js';
-import PYECommunityClient from 'modules/bot/client';
+import { Colors, CommandInteraction, EmbedBuilder } from 'discord.js';
+import PYECommunityClient from '../../modules/bot/client';
+import { CommandBuilder } from '../../modules/bot/handlers';
 
-export const data = new SlashCommandBuilder()
+export const data = new CommandBuilder()
   .setName('ping')
-  .setDescription('replies with pong');
+  .setDescription('replies with pong')
+  .setCooldown(10);
 
 export async function execute(
   interaction: CommandInteraction,

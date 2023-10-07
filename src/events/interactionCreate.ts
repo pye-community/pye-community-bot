@@ -1,5 +1,5 @@
 import { Colors, Events, Interaction } from 'discord.js';
-import PYECommunityClient from 'modules/bot/client';
+import PYECommunityClient from './../modules/bot/client';
 
 export default {
   name: Events.InteractionCreate,
@@ -22,6 +22,7 @@ export default {
         ephemeral: true,
       });
 
+    if (await client.handler.checkCommandPermissions(interaction)) return;
     slashCommand?.execute(interaction, client);
   },
 };
