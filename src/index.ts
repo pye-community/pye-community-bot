@@ -13,9 +13,14 @@ export const client = new Client({
   allowedMentions: { parse: ['users'] },
 });
 
-export const loader = new clientHandlers(client).loadSlashCommands().then(async (a) => {
-  return await a.loadEvents();
-}).catch((err) => { console.error(err); });
+export const loader = new clientHandlers(client)
+  .loadSlashCommands()
+  .then(async (a) => {
+    return await a.loadEvents();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 client.login(config.bot.DISCORD_TOKEN).catch((err) => {
   console.error(err);
