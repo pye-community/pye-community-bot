@@ -26,8 +26,8 @@ export default class PYECommunityClient extends Client {
   commands: Collection<string, SlashCommand> = new Collection();
 
   public async login(token?: string | undefined): Promise<string> {
-    await this.handler.loadSlashCommands();
     await this.handler.loadEvents();
+    await this.handler.loadSlashCommands();
 
     return await super.login(token);
   }
