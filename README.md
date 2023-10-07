@@ -1,34 +1,42 @@
-# PyE Community
-PyE Community is a bot for discord.gg/programacion which has the milestone to build between all members a bot that helps with user needs in order to enjoy a better experience on the server.
+# PyE Community - README
 
-## Run the bot
+[![Discord](https://img.shields.io/discord/768278151435386900?color=7289da&label=Join%20Us%20on%20Discord&logo=discord&logoColor=white)](https://discord.gg/programacion)
+[![GitHub](https://img.shields.io/github/license/pye-community/pye-community-bot)](https://github.com/pye-community/pye-community-bot)
 
-1. Install dependencies:
+Welcome to the PyE Community! Our Discord bot is designed to enhance your experience on [discord.gg/programacion](https://discord.com/invite/programacion) by providing valuable features and assistance to our members.
 
-```bash
-npm run install
-```
+## Getting Started
 
-2. Create a `.env` file in the root directory:
+Follow these simple steps to run the PyE Community bot on your server:
 
-```env
-DISCORD_TOKEN=
-CLIENT_ID=
-GUILD_ID=
-COHERE_AI_API_KEY= # optional
-REPORT_CHANNEL= # optional
-```
+1. **Install Dependencies:** We recommend using [pnpm](https://pnpm.js.org/) as the package manager for this project. Install dependencies with your preferred package manager:
 
-3. Start the bot:
+   ```bash
+   pnpm install
+   ```
 
-```bash
-npm run start
-```
+2. **Create a Configuration File:** In the root directory of the project, create a `.env` file and provide the following details:
+
+   ```env
+   DISCORD_TOKEN=
+   CLIENT_ID=
+   GUILD_ID=
+   COHERE_AI_API_KEY=    # (optional)
+   REPORT_CHANNEL=       # (optional)
+   ```
+
+3. **Start the Bot:** Run the following command to start the bot:
+
+   ```bash
+   pnpm run start
+   ```
 
 ## Contributing
 
-We welcome contributions from the community. If you have any ideas or improvements, please open an issue to discuss them before submitting a pull request.
+We value contributions from our community members. If you have any ideas or improvements, please open an issue to discuss them before submitting a pull request.
 
 ## License
 
 This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/). Feel free to use and modify it according to your needs.
+
+---
