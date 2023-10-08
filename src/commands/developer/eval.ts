@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import { Colors, CommandInteraction } from 'discord.js';
 import { inspect } from 'util';
 import { CommandBuilder } from './../../modules/bot/handlers';

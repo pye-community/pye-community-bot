@@ -5,6 +5,13 @@ export default {
   name: Events.InteractionCreate,
   once: false,
   async execute(client: PYECommunityClient, interaction: Interaction) {
+    if (interaction.isAutocomplete()) {
+      const slashCommand = client?.commands.get(interaction.commandName);
+      if (!slashCommand) return;
+
+      slashCommand?.autocomplete?.(interaction, client);
+    }
+
     if (!interaction.isChatInputCommand()) return;
 
     const { commandName } = interaction;

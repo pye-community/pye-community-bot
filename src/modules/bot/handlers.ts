@@ -1,5 +1,5 @@
 import {
-  Client,
+  AutocompleteInteraction,
   ClientEvents,
   Collection,
   Colors,
@@ -26,7 +26,14 @@ interface slashCommandData
 
 export interface SlashCommand {
   data: slashCommandData;
-  execute: (interaction: CommandInteraction, client?: Client) => void;
+  execute: (
+    interaction: CommandInteraction,
+    client?: PYECommunityClient
+  ) => void;
+  autocomplete?: (
+    interaction: AutocompleteInteraction,
+    client?: PYECommunityClient
+  ) => void;
 }
 
 export interface Event {
