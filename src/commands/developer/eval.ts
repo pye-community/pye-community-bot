@@ -8,7 +8,7 @@ import { CommandBuilder } from './../../modules/bot/handlers';
 export const data = new CommandBuilder()
   .setName('eval')
   .setDescription('Evalúa un código de JavaScript')
-  .setCategory('developer')
+  .setCategory('desarrollador')
   .setDeveloper(true)
   .addStringOption(option =>
     option
