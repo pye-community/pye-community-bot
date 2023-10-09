@@ -26,6 +26,8 @@ export const nsfwFilter = async function (
 ): Promise<void> {
   if (!message.member) return;
   if (message.attachments.size === 0) return;
+  if (!message.member?.roles.cache.find(r => r.id === "780597611496865792")) return;
+
   for (const attachment of message.attachments) {
     const url = attachment[1]?.url;
     if (!url) break;
