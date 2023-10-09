@@ -32,7 +32,7 @@ export async function execute(
   const embed = new EmbedBuilder()
       .setColor(Colors.Green)
       .setThumbnail(
-        'https://cdn.discordapp.com/attachments/768329192131526686/1160379631350857728/3513b19499eea111db54cef4336f7b77.png?ex=653472be&is=6521fdbe&hm=6242f482f93d9e7b63caa43485228af1174870bfdfe0676d7bf9000607aa53f4&'
+        'https://cdn.discordapp.com/attachments/768329192131526686/1160655761639219262/3513b19499eea111db54cef4336f7b77.png?ex=653573e9&is=6522fee9&hm=9420db33cbafa8321eb9c5cff9c23bc5f2bb45460cbbe6ede709369659d017bd&'
       ),
     menu = new StringSelectMenuBuilder()
       .setCustomId('help')
@@ -41,20 +41,48 @@ export async function execute(
 
   if (interaction.options.get('categoria')) {
     embed.setDescription(
-      `# Ayuda ${client.commands
-        .filter(
-          x =>
-            x.data.category ===
-            interaction.options.get('categoria')?.value?.toString()
-        )
-        .map(x => `\`${x.data.name}\``)
-        .join(', ')}`
+      `# 🔎 Comandos en ${
+        interaction.options.get('categoria')?.value?.toString() ??
+        'Categoria desconocida'
+      }\n\n\`\`\`${formatList(
+        client.commands
+          .filter(
+            x =>
+              x.data.category ===
+              interaction.options.get('categoria')?.value?.toString()
+          )
+          .map(x => `/${x.data.name}`)
+      )}\`\`\``
     );
+
+    embed.setFooter({
+      text: `Para ver información de un comando usa /help <comando>`,
+    });
+
+    row.components = [
+      menu.setOptions(
+        client.commands
+          .filter(
+            x =>
+              x.data.category ===
+              interaction.options.get('categoria')?.value?.toString()
+          )
+          .map(command => {
+            return {
+              label: command.data.name
+                .slice(0, 1)
+                .toUpperCase()
+                .concat(command.data.name.slice(1)),
+              value: command.data.name,
+            };
+          })
+      ),
+    ];
   } else {
     embed.setDescription(
       `# 🟢 Ayuda\nHola 👋 ***\`${
         interaction.member?.user.username ?? ''
-      }\`*** bienvenido a la lista de comandos de PyE Community. Para poder ver información más detallada del comando puedes usar: \n**</help:1160374786199928842> <comando>**\n\n\`\`\`${formatList(
+      }\`*** bienvenido a la lista de comandos de PyE Community. Para poder ver información más detallada del comando puedes usar: \n**</help:1160374786199928842> <comando>**\n\n### Categorias del bot:\n\`\`\`${formatList(
         client.commands
           .map(command => command.data.category)
           .filter((x, i, a) => a.indexOf(x) == i)
@@ -63,6 +91,10 @@ export async function execute(
           })
       )}\`\`\``
     );
+
+    embed.setFooter({
+      text: 'Para ver información de una categoria usa /help <categoria> ',
+    });
 
     row.components = [
       menu.setOptions(
@@ -82,7 +114,9 @@ export async function execute(
     ];
   }
 
-  await interaction.reply({ embeds: [embed], components: [row] });
+  await interaction
+    .reply({ embeds: [embed], components: [row] })
+    .catch(console.error);
 }
 
 export async function autocomplete(
@@ -90,7 +124,7 @@ export async function autocomplete(
   client: PYECommunityClient
 ) {
   if (interaction.options.get('categoria'))
-    await interaction.respond(
+    return await interaction.respond(
       client.commands
         .map(command => command.data.category)
         .filter((x, i, a) => a.indexOf(x) == i)
@@ -122,19 +156,23 @@ export async function autocomplete(
 }
 
 function formatList(
-  array: Array<string>,
-  separator: string = '',
+  array: string[],
   chunk = 3,
-  prefix = '  '
-) {
-  const columnWidth = Math.max(...array.map(s => s.length)) + prefix.length;
+  separator = '   ',
+  lineBreak = '\n',
+  maxColumnWidth = 20
+): string {
+  let columnWidth = Math.max(...array.map(s => s.length)) + separator.length;
+  columnWidth = Math.min(columnWidth, maxColumnWidth);
   let result = '';
+
   for (let i = 0; i < array.length; i += chunk) {
     const items = array.slice(i, i + chunk);
+    const currentSeparator = items.length < chunk ? lineBreak : '';
     result +=
-      items
-        .map(item => item + Array(columnWidth - item.length).join(' '))
-        .join(separator) + '\n';
+      items.map(item => item.padEnd(columnWidth)).join(currentSeparator) +
+      lineBreak;
   }
+
   return result;
 }
