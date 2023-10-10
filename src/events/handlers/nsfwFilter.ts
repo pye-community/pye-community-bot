@@ -13,12 +13,12 @@ nsfwjs
   .catch((err) => console.log(err));
 
 const thresholds = {
-  "Porn": 0.4,
-  "Sexy": 0.6,
-  "Hentai": 0.6,
+  Porn: 0.4,
+  Sexy: 0.6,
+  Hentai: 0.6,
 };
 
-const keys = ["Porn", "Sexy", "Hentai"];
+const keys = ['Porn', 'Sexy', 'Hentai'];
 
 export const nsfwFilter = async function (
   message: Message,
@@ -26,7 +26,8 @@ export const nsfwFilter = async function (
 ): Promise<void> {
   if (!message.member) return;
   if (message.attachments.size === 0) return;
-  if (!message.member?.roles.cache.find(r => r.id === "780597611496865792")) return;
+  if (!message.member?.roles.cache.find((r) => r.id === '780597611496865792'))
+    return;
 
   for (const attachment of message.attachments) {
     const url = attachment[1]?.url;
@@ -70,7 +71,9 @@ async function report(client: Client, message: Message, url: string) {
           .addFields({ name: 'at', value: `<#${message.channelId}>` })
           .addFields({
             name: 'by',
-            value: `${message.member?.displayName ?? ''} - ${message.member?.id ?? ''}`,
+            value: `${message.member?.displayName ?? ''} - ${
+              message.member?.id ?? ''
+            }`,
           })
           .addFields({ name: 'nsfw content', value: url }),
       ],
