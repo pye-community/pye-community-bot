@@ -48,7 +48,7 @@ export const nsfwFilter = async function (
         casualty.probability >= thresholds[name as keyof typeof thresholds]
       ) {
         await message.delete();
-        report(client, message, url);
+        report(client, message, url).catch((err) => console.log(err));
 
         return;
       }
@@ -65,14 +65,14 @@ async function report(client: Client, message: Message, url: string) {
     await reportChannel.send({
       embeds: [
         new EmbedBuilder()
-        .setColor(0xff0000)
-        .setTitle('NSFW filter triggered')
-        .addFields({ name: 'at', value: `<#${message.channelId}>` })
-        .addFields({
-          name: 'by',
-          value: `${message.member?.displayName} - ${message.member?.id}`,
-        })
-        .addFields({ name: 'nsfw content', value: url }),
+          .setColor(0xff0000)
+          .setTitle('NSFW filter triggered')
+          .addFields({ name: 'at', value: `<#${message.channelId}>` })
+          .addFields({
+            name: 'by',
+            value: `${message.member?.displayName ?? ''} - ${message.member?.id ?? ''}`,
+          })
+          .addFields({ name: 'nsfw content', value: url }),
       ],
     });
   }

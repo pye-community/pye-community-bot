@@ -4,7 +4,7 @@
   "description": "A community bot created for https://discord.gg/programacion (PyE server)",
   "main": "build/index.js",
   "scripts": {
-    "start": "pnpm build && node build/index.js",
+    "start": "pnpm lint && pnpm format:check && pnpm build && node build/index.js",
     "clean": "rimraf ./build",
     "prebuild": "pnpm run clean",
     "dev": "pnpm ts-node-dev --respawn --transpile-only src/index.ts dev",
