@@ -5,6 +5,13 @@ export default {
   name: Events.InteractionCreate,
   once: false,
   async execute(client: PYECommunityClient, interaction: Interaction) {
+    if (interaction.isStringSelectMenu()) {
+      const slashCommand = client?.commands.get(interaction.customId);
+      if (!slashCommand) return;
+
+      slashCommand?.interactions?.(interaction, client);
+    }
+
     if (interaction.isAutocomplete()) {
       const slashCommand = client?.commands.get(interaction.commandName);
       if (!slashCommand) return;

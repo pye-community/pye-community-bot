@@ -4,6 +4,7 @@ import {
   CommandInteraction,
   EmbedBuilder,
   StringSelectMenuBuilder,
+  StringSelectMenuInteraction,
 } from 'discord.js';
 import PYECommunityClient from '../../modules/bot/client';
 import { CommandBuilder } from '../../modules/bot/handlers';
@@ -31,9 +32,7 @@ export async function execute(
 ) {
   const embed = new EmbedBuilder()
       .setColor(Colors.Green)
-      .setThumbnail(
-        'https://cdn.discordapp.com/attachments/768329192131526686/1160655761639219262/3513b19499eea111db54cef4336f7b77.png?ex=653573e9&is=6522fee9&hm=9420db33cbafa8321eb9c5cff9c23bc5f2bb45460cbbe6ede709369659d017bd&'
-      ),
+      .setThumbnail(client.user?.displayAvatarURL() ?? ''),
     menu = new StringSelectMenuBuilder()
       .setCustomId('help')
       .setPlaceholder(`Selecciona una opcion`),
@@ -67,6 +66,54 @@ export async function execute(
               x.data.category ===
               interaction.options.get('categoria')?.value?.toString()
           )
+          .map(command => {
+            return {
+              label: command.data.name
+                .slice(0, 1)
+                .toUpperCase()
+                .concat(command.data.name.slice(1)),
+              value: command.data.name,
+            };
+          })
+      ),
+    ];
+  } else if (interaction.options.get('comando')) {
+    const command = client.commands.find(
+      x =>
+        x.data.name ===
+        interaction.options.get('comando')?.value?.toString().toLowerCase()
+    );
+
+    if (!command) {
+      embed.setDescription(
+        `# ❌ Comando desconocido\nEl comando \`${
+          interaction.options.get('comando')?.value?.toString() ?? ''
+        }\` no existe.`
+      );
+    } else {
+      embed.setDescription(
+        `# 📖 Información de ${command.data.name
+          .slice(0, 1)
+          .toUpperCase()
+          .concat(command.data.name.slice(1))}\n\n**Descripción:** ${
+          command.data.description
+        }\n**Categoria:** ${command.data.category
+          .slice(0, 1)
+          .toUpperCase()
+          .concat(command.data.category.slice(1))}\n**Cooldown:** ${
+          command.data?.cooldown ?? '5'
+        } segundos`
+      );
+
+      embed.setFooter({
+        text: `Para ver información de una categoria usa /help <categoria>`,
+      });
+    }
+
+    row.components = [
+      menu.setOptions(
+        client.commands
+          .filter(x => x.data.category === command?.data.category)
           .map(command => {
             return {
               label: command.data.name
@@ -153,6 +200,70 @@ export async function autocomplete(
         };
       })
   );
+}
+
+export async function interactions(
+  interaction: StringSelectMenuInteraction,
+  client: PYECommunityClient
+) {
+  const commandOrCategory =
+    client.commands.get(interaction?.values?.[0]) ??
+    client.commands
+      .filter(x => x.data.category === interaction?.values?.[0])
+      .map(x => x.data.name);
+  if (!commandOrCategory) return;
+
+  const message = await interaction
+    .deferReply({ ephemeral: true })
+    .catch(console.error);
+
+  if (!(commandOrCategory instanceof Array)) {
+    message
+      ?.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(Colors.Green)
+            .setDescription(
+              `# 📖 Información de ${commandOrCategory.data.name
+                .slice(0, 1)
+                .toUpperCase()
+                .concat(
+                  commandOrCategory.data.name.slice(1)
+                )}\n\n**Descripción:** ${
+                commandOrCategory.data.description
+              }\n**Categoria:** ${commandOrCategory.data.category
+                .slice(0, 1)
+                .toUpperCase()
+                .concat(
+                  commandOrCategory.data.category.slice(1)
+                )}\n**Cooldown:** ${
+                commandOrCategory.data?.cooldown ?? '5'
+              } segundos`
+            ),
+        ],
+      })
+      .catch(console.error);
+  } else {
+    message
+      ?.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(Colors.Green)
+            .setDescription(
+              `# 🔎 Comandos en ${
+                interaction.values?.[0] ?? 'Categoria desconocida'
+              }\n\n\`\`\`${formatList(
+                client.commands
+                  .filter(
+                    x => x.data.category === interaction.values?.[0].toString()
+                  )
+                  .map(x => `/${x.data.name}`)
+              )}\`\`\``
+            ),
+        ],
+      })
+      .catch(console.error);
+  }
 }
 
 function formatList(

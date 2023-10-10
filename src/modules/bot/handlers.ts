@@ -1,5 +1,6 @@
 import {
   AutocompleteInteraction,
+  ButtonInteraction,
   ClientEvents,
   Collection,
   Colors,
@@ -9,6 +10,7 @@ import {
   RESTPostAPIChatInputApplicationCommandsJSONBody,
   Routes,
   SlashCommandBuilder,
+  StringSelectMenuInteraction,
 } from 'discord.js';
 import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
@@ -32,6 +34,10 @@ export interface SlashCommand {
   ) => void;
   autocomplete?: (
     interaction: AutocompleteInteraction,
+    client?: PYECommunityClient
+  ) => void;
+  interactions?: (
+    interaction: ButtonInteraction | StringSelectMenuInteraction,
     client?: PYECommunityClient
   ) => void;
 }
