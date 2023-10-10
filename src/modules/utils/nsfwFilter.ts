@@ -12,12 +12,23 @@ nsfwjs
   .then(r => (model = r))
   .catch(err => console.log(err));
 
+const thresholds = {
+  Porn: 0.4,
+  Sexy: 0.6,
+  Hentai: 0.6,
+};
+
+const keys = ['Porn', 'Sexy', 'Hentai'];
+
 export const nsfwFilter = async function (
   message: Message,
   client: Client
 ): Promise<void> {
   if (!message.member) return;
   if (message.attachments.size === 0) return;
+  if (!message.member?.roles.cache.find((r) => r.id === '780597611496865792'))
+    return;
+
   for (const attachment of message.attachments) {
     const url = attachment[1]?.url;
     if (!url) break;
@@ -31,27 +42,41 @@ export const nsfwFilter = async function (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const prediction = await model.classify(img as any);
 
-    if (!['Porn', 'Sexy'].includes(prediction[0].className)) return;
-    await message.delete();
+    for (const casualty of prediction) {
+      const name = casualty.className;
+      if (
+        keys.includes(name) &&
+        casualty.probability >= thresholds[name as keyof typeof thresholds]
+      ) {
+        await message.delete();
+        report(client, message, url).catch((err) => console.log(err));
 
-    const reportChannel = await client.channels.fetch(
-      config.channels.reports_channel
-    );
-
-    if (reportChannel?.isTextBased()) {
-      await reportChannel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setColor(0xff0000)
-            .setTitle('NSFW filter triggered')
-            .addFields({ name: 'at', value: `<#${message.channelId}>` })
-            .addFields({
-              name: 'by',
-              value: `${message.member.displayName} - ${message.member.id}`,
-            })
-            .addFields({ name: 'nsfw content', value: url }),
-        ],
-      });
+        return;
+      }
     }
   }
 };
+
+async function report(client: Client, message: Message, url: string) {
+  const reportChannel = await client.channels.fetch(
+    config.channels.reports_channel
+  );
+
+  if (reportChannel?.isTextBased()) {
+    await reportChannel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(0xff0000)
+          .setTitle('NSFW filter triggered')
+          .addFields({ name: 'at', value: `<#${message.channelId}>` })
+          .addFields({
+            name: 'by',
+            value: `${message.member?.displayName ?? ''} - ${
+              message.member?.id ?? ''
+            }`,
+          })
+          .addFields({ name: 'nsfw content', value: url }),
+      ],
+    });
+  }
+}
