@@ -32,10 +32,10 @@ jobs:
       - name: Get pnpm cache
         id: pnpm-cache
         run: |
-          echo "pnpm_cache_dir=$(pnpm config get store)" >> $GITHUB_OUTPUT
+          echo "pnpm_cache_dir=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
       - name: Restore pnpm cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
