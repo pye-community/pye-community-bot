@@ -20,17 +20,19 @@ Follow these simple steps to run the PyE Community bot on your server:
 2. **Create a Configuration File:** In the root directory of the project, create a `.env` file and provide the following details:
 
    ```env
-   DISCORD_TOKEN=
-   CLIENT_ID=
-   GUILD_ID=
-   COHERE_AI_API_KEY=    # (optional)
-   REPORT_CHANNEL=       # (optional)
+   DISCORD_CLIENT_ID=""
+   DISCORD_GUILD_ID=""
+   DISCORD_SECRET=""
+
+   DATABASE_URL=""
+
+   NODE_ENV="development" # (optional)
    ```
 
 3. **Start the Bot:** Run the following command to start the bot:
 
    ```bash
-   pnpm run start
+   pnpm dev
    ```
 
 ## Contributing
