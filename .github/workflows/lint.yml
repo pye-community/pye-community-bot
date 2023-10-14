@@ -15,18 +15,38 @@ jobs:
         node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # TODO: move to action
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.7.5
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - uses: pnpm/action-setup@v2
+      - name: Get pnpm cache
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm config get store)" >> $GITHUB_OUTPUT
+
+      - name: Restore pnpm cache
+        uses: actions/cache@v2
         with:
-          version: 8.7.5
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile --prefer-offline
 
       - name: Typecheck
-        run: |
-          pnpm install
-          pnpm db:generate
-          pnpm typecheck
+        run: pnpm db:generate && pnpm typecheck
+
+      - name: Check
+        run: pnpm manypkg check
