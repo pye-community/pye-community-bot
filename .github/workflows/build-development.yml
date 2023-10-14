@@ -1,1 +1,51 @@
 name: Build development
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-production:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+
+      - name: Environment
+        working-directory: apps/bot
+        run: |
+          touch .env
+
+          echo "DISCORD_CLIENT_ID=${{ env.DISCORD_CLIENT_ID }}" >> .env
+          echo "DISCORD_GUILD_ID=${{ env.DISCORD_GUILD_ID }}" >> .env
+          echo "DISCORD_SECRET=${{ env.DISCORD_SECRET }}" >> .env
+
+          echo "DATABASE_URL=${{ env.DATABASE_URL }}" >> .env
+
+          echo "NODE_ENV=development" >> .env
+
+      - name: Install dependencies
+        run: |
+          pnpm install
+          pnpm db:generate
+          pnpm build
+
+env:
+  # Discord
+  DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+  DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
+  DISCORD_SECRET: ${{ secrets.DISCORD_SECRET }}
+
+  # Prisma
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
