@@ -29,7 +29,7 @@ Follow these simple steps to run the PyE Community bot on your server:
    NODE_ENV="development" # (optional)
    ```
 
-3. **Start the Bot:** Run the following command to start the bot:
+3. **Start the monorepo:** Run the following command to start the monorepo:
 
    ```bash
    pnpm dev
