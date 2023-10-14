@@ -1,0 +1,25 @@
+{
+  "name": "@pye-community-bot/bot",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc && tsc-alias && node dist/deploy.js",
+    "clean": "rm -rf .turbo node_modules",
+    "dev": "ts-node-dev -r tsconfig-paths/register ./index.ts",
+    "lint": "eslint .",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pye-community-bot/commands": "^1.0.0",
+    "@pye-community-bot/env": "^1.0.0",
+    "@pye-community-bot/events": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.8",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.2.2"
+  }
+}

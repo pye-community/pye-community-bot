@@ -1,17 +1,16 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "incremental": true,
     "target": "ESNext",
-    "module": "commonjs",
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
+    "module": "CommonJS",
+    "resolveJsonModule": true,
     "strict": true,
     "noImplicitAny": true,
     "sourceMap": true,
-    "outDir": "./build",
-    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "compileOnSave": true,
-  "include": ["./src"],
-  "exclude": ["./node_modules"]
+  "exclude": ["node_modules", "dist", "lib"]
 }

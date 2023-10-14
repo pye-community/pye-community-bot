@@ -2,45 +2,34 @@
   "name": "pye-community",
   "version": "1.0.0",
   "description": "A community bot created for https://discord.gg/programacion (PyE server)",
-  "main": "build/index.js",
-  "scripts": {
-    "start": "pnpm build && node build/index.js",
-    "clean": "rimraf ./build",
-    "prebuild": "pnpm run clean",
-    "dev": "pnpm ts-node-dev --respawn --transpile-only src/index.ts dev",
-    "build": "tsc",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
-    "format": "pnpm exec prettier --write .",
-    "format:check": "pnpm exec prettier --check .",
-    "prepare": "husky install"
-  },
   "author": {
     "name": "PyE Community"
   },
-  "dependencies": {
-    "@discordjs/rest": "^2.0.1",
-    "@tensorflow/tfjs-node": "^4.10.0",
-    "axios": "^1.5.0",
-    "cohere-ai": "^6.2.2",
-    "discord.js": "^14.13.0",
-    "dotenv": "^16.3.1",
-    "google-translate-api-x": "^10.6.7",
-    "nsfwjs": "^2.4.2"
+  "engines": {
+    "node": ">=19.0.0",
+    "pnpm": ">=8.5.0"
   },
-  "devDependencies": {
-    "@commitlint/cli": "^17.7.2",
-    "@commitlint/config-conventional": "^17.7.0",
-    "@types/axios": "^0.14.0",
-    "@types/node": "^20.6.2",
-    "@typescript-eslint/eslint-plugin": "^6.7.4",
-    "@typescript-eslint/parser": "^6.7.4",
-    "eslint": "^8.50.0",
-    "eslint-plugin-unicorn": "^48.0.1",
-    "husky": "^8.0.3",
-    "prettier": "^3.0.3",
-    "rimraf": "^5.0.1",
-    "ts-node-dev": "^2.0.0",
+  "scripts": {
+    "build": "turbo build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean",
+    "db:push": "pnpm -F db push",
+    "db:generate": "pnpm -F db generate",
+    "dev": "turbo dev --parallel",
+    "lint": "turbo lint --continue -- --cache --cache-location \"node_modules/.cache/.eslintcache\" && manypkg check",
+    "lint:fix": "turbo lint --continue -- --fix --cache --cache-location \"node_modules/.cache/.eslintcache\" && manypkg fix",
+    "typecheck": "turbo typecheck"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tooling/*"
+  ],
+  "dependencies": {
+    "@antfu/eslint-config": "1.0.0-beta.27",
+    "@manypkg/cli": "^0.21.0",
+    "packemon": "^3.2.2",
+    "turbo": "^1.10.15",
     "typescript": "^5.2.2"
   }
 }

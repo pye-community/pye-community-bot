@@ -1,0 +1,50 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "db:generate": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": false
+    },
+    "@pye-community-bot/commands#build": {
+      "outputs": ["dts/**", "lib/**"],
+      "dependsOn": []
+    },
+    "@pye-community-bot/events#build": {
+      "outputs": ["dts/**", "lib/**"],
+      "dependsOn": ["@pye-community-bot/commands#build"]
+    },
+    "@pye-community-bot/env#build": {
+      "outputs": ["dts/**", "lib/**"],
+      "dependsOn": []
+    },
+    "@pye-community-bot/bot#build": {
+      "outputs": ["dist"],
+      "dependsOn": [
+        "@pye-community-bot/events#build",
+        "@pye-community-bot/env#build"
+      ]
+    },
+    "typecheck": {
+      "outputs": ["node_modules/.cache/tsbuildinfo.json"]
+    },
+    "lint": {
+      "outputs": ["node_modules/.cache/.eslintcache"]
+    },
+    "clean": {
+      "cache": false
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    }
+  },
+  "globalEnv": [
+    "SKIP_ENV_VALIDATION",
+
+    "DISCORD_CLIENT_ID",
+    "DISCORD_GUILD_ID",
+    "DISCORD_SECRET",
+
+    "NODE_ENV"
+  ]
+}

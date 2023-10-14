@@ -7,6 +7,8 @@ Welcome to the PyE Community! Our Discord bot is designed to enhance your experi
 
 ## Getting Started
 
+Attention, if you use prettier you must disable the plugin in the folder, prettier is not used and its use is not recommended. 
+
 Follow these simple steps to run the PyE Community bot on your server:
 
 1. **Install Dependencies:** We recommend using [pnpm](https://pnpm.js.org/) as the package manager for this project. Install dependencies with your preferred package manager:

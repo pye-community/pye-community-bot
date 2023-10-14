@@ -1,0 +1,57 @@
+{
+  "name": "@pye-community-bot/env",
+  "version": "1.0.0",
+  "exports": {
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./lib/*.d.ts",
+      "node": {
+        "types": "./lib/*.d.ts",
+        "default": "./lib/*.js"
+      },
+      "default": "./lib/*.js"
+    },
+    ".": {
+      "types": "./lib/index.d.ts",
+      "node": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      },
+      "default": "./lib/index.js"
+    }
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "dts/**/*.d.ts",
+    "lib/**/*",
+    "lib/**/*.{js,map}",
+    "src/**/*",
+    "src/**/*.{ts,json}"
+  ],
+  "engines": {
+    "node": ">=19.0.0"
+  },
+  "scripts": {
+    "build": "packemon build --addEngines --addExports --declaration",
+    "clean": "rm -rf .turbo node_modules",
+    "dev": "packemon watch",
+    "lint": "eslint .",
+    "format": "prettier --check \"src/*.{ts,json}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "packemon": {
+    "format": "lib",
+    "platform": "node",
+    "support": "experimental"
+  },
+  "dependencies": {
+    "@t3-oss/env-core": "^0.7.0",
+    "dotenv": "^16.3.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "typescript": "^5.2.2"
+  }
+}

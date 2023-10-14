@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "rootDir": "src",
+    "outDir": "dts"
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
