@@ -45,8 +45,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile --prefer-offline
 
-      - name: Lint
-        run: pnpm db:generate && pnpm lint
+      - name: Typecheck
+        run: pnpm db:generate && pnpm typecheck
 
       - name: Check
         run: pnpm manypkg check
