@@ -8,7 +8,8 @@ Welcome to the PyE Community! Our Discord bot is designed to enhance your experi
 ## Getting Started
 
 ```text
-For recommendations, use vscode with the eslint extension. If you use "prettier", disable it as it is not recommended for use in projects. 
+For recommendations, use vscode with the eslint extension. 
+If you use "prettier", disable it as it is not recommended for use in projects. 
 ```
 
 Follow these simple steps to run the PyE Community bot on your server:
