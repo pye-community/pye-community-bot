@@ -1,16 +1,25 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "incremental": true,
     "target": "ESNext",
+    "lib": ["ESNext"],
+    "baseUrl": "src",
     "module": "CommonJS",
+    "paths": {
+      "~/*": [
+        "./*"
+      ]
+    },
     "resolveJsonModule": true,
     "strict": true,
-    "noImplicitAny": true,
-    "sourceMap": true,
+    "strictNullChecks": true,
+    "outDir": "dist",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "dist", "lib"]
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

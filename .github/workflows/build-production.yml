@@ -43,7 +43,6 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Environment
-        working-directory: apps/bot
         run: |
           touch .env
 
@@ -59,10 +58,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile --prefer-offline
 
       - name: Build
-        run: pnpm db:generate && pnpm build
-
-      - name: Check
-        run: pnpm manypkg check
+        run: pnpm build
 
 env:
   # Discord

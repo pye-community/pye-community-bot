@@ -5,16 +5,7 @@ node_modules
 
 # production
 dist
-cjs
-dts
-lib
 
-# local env files
+# env
 .env
 .env*.local
-
-# typescript
-*.tsbuildinfo
-
-# turbo
-.turbo

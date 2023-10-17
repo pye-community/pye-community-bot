@@ -7,17 +7,13 @@ Welcome to the PyE Community! Our Discord bot is designed to enhance your experi
 
 ## Getting Started
 
-Attention, if you use prettier you must disable the plugin in the folder, prettier is not used and its use is not recommended. 
+```text
+For recommendations, use vscode with the eslint extension. If you use "prettier", disable it as it is not recommended for use in projects. 
+```
 
 Follow these simple steps to run the PyE Community bot on your server:
 
-1. **Install Dependencies:** We recommend using [pnpm](https://pnpm.js.org/) as the package manager for this project. Install dependencies with your preferred package manager:
-
-   ```bash
-   pnpm install
-   ```
-
-2. **Create a Configuration File:** In the root directory of the project, create a `.env` file and provide the following details:
+1. **Create a Configuration File:** In the root directory of the project, create a `.env` file and provide the following details:
 
    ```env
    DISCORD_CLIENT_ID=""
@@ -29,7 +25,13 @@ Follow these simple steps to run the PyE Community bot on your server:
    NODE_ENV="development" # (optional)
    ```
 
-3. **Start the monorepo:** Run the following command to start the monorepo:
+2. **Install Dependencies:** We recommend using [pnpm](https://pnpm.js.org/) as the package manager for this project. Install dependencies with your preferred package manager:
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Start the bot:** Run the following command to start the bot:
 
    ```bash
    pnpm dev

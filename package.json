@@ -10,26 +10,30 @@
     "pnpm": ">=8.5.0"
   },
   "scripts": {
-    "build": "turbo build",
-    "clean": "git clean -xdf node_modules",
-    "clean:workspaces": "turbo clean",
-    "db:push": "pnpm -F db push",
-    "db:generate": "pnpm -F db generate",
-    "dev": "turbo dev --parallel",
-    "lint": "turbo lint --continue -- --cache --cache-location \"node_modules/.cache/.eslintcache\" && manypkg check",
-    "lint:fix": "turbo lint --continue -- --fix --cache --cache-location \"node_modules/.cache/.eslintcache\" && manypkg fix",
-    "typecheck": "turbo typecheck"
+    "postinstall": "pnpm db:generate && pnpm build && node dist/deploy-commands.js",
+    "build": "tsc && tsc-alias",
+    "db:push": "prisma db push",
+    "db:format": "prisma format",
+    "db:generate": "prisma generate",
+    "dev": "ts-node-dev -r tsconfig-paths/register ./src/index.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "tooling/*"
-  ],
   "dependencies": {
-    "@antfu/eslint-config": "1.0.0-beta.27",
-    "@manypkg/cli": "^0.21.0",
-    "packemon": "^3.2.2",
-    "turbo": "^1.10.15",
+    "@prisma/client": "^5.4.2",
+    "@t3-oss/env-core": "^0.7.1",
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^1.0.0-beta.27",
+    "eslint": "^8.51.0",
+    "prisma": "^5.4.2",
+    "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.8",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2"
   }
 }
