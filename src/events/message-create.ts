@@ -1,7 +1,7 @@
 import { Events } from 'discord.js'
 import type { Message } from 'discord.js'
 
-import { predict } from '~/context/imp/vit-base-imp'
+import { classification } from '~/context/imp/computer-vision-imp'
 import type { BaseEvent } from '~/utils/base'
 
 export class MessageCreateEvent implements BaseEvent {
@@ -22,7 +22,7 @@ export class MessageCreateEvent implements BaseEvent {
       return
 
     const data = await response.arrayBuffer()
-    const result = await predict(new Uint8Array(data), 'nsfw')
+    const result = await classification(new Uint8Array(data), 'nsfw')
 
     if (result)
       await message.delete()

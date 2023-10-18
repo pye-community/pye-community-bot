@@ -6,6 +6,11 @@ interface Response {
   score: number
 }
 
+/**
+ * Policies
+ * A set of policies that can be used to classify an image
+ */
+
 const policies = {
   nsfw: {
     labels: [
@@ -17,7 +22,12 @@ const policies = {
 
 type Policy = keyof typeof policies
 
-export async function predict(data: Uint8Array, policy: Policy) {
+/**
+ * Classification
+ * A function that classifies an image based on a policy
+ */
+
+export async function classification(data: Uint8Array, policy: Policy) {
   const hf = new HfInference(env.HUGGINGFACE_SECRET)
 
   const result = <Response[]> await hf.imageClassification({
