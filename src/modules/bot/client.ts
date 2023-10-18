@@ -5,6 +5,7 @@ import {
   GatewayIntentBits,
   Partials,
 } from 'discord.js';
+import config from '../../config';
 import { SlashCommand, clientHandlers } from './handlers';
 
 export default class PYECommunityClient extends Client {
@@ -22,6 +23,7 @@ export default class PYECommunityClient extends Client {
     });
   }
 
+  config: typeof config = config;
   handler: clientHandlers = new clientHandlers(this);
   commands: Collection<string, SlashCommand> = new Collection<
     string,

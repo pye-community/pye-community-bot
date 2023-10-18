@@ -68,10 +68,7 @@ export async function execute(
           )
           .map(command => {
             return {
-              label: command.data.name
-                .slice(0, 1)
-                .toUpperCase()
-                .concat(command.data.name.slice(1)),
+              label: toCapitalize(command.data.name),
               value: command.data.name,
             };
           })
@@ -92,17 +89,11 @@ export async function execute(
       );
     } else {
       embed.setDescription(
-        `# 📖 Información de ${command.data.name
-          .slice(0, 1)
-          .toUpperCase()
-          .concat(command.data.name.slice(1))}\n\n**Descripción:** ${
-          command.data.description
-        }\n**Categoria:** ${command.data.category
-          .slice(0, 1)
-          .toUpperCase()
-          .concat(command.data.category.slice(1))}\n**Cooldown:** ${
-          command.data?.cooldown ?? '5'
-        } segundos`
+        `# 📖 Información de ${toCapitalize(
+          command.data.name
+        )}\n\n**Descripción:** ${command.data.description}\n**Categoria:** ${
+          toCapitalize(command.data.category) ?? 'Sin categoria'
+        }\n**Cooldown:** ${command.data?.cooldown ?? '5'} segundos`
       );
 
       embed.setFooter({
@@ -116,10 +107,7 @@ export async function execute(
           .filter(x => x.data.category === command?.data.category)
           .map(command => {
             return {
-              label: command.data.name
-                .slice(0, 1)
-                .toUpperCase()
-                .concat(command.data.name.slice(1)),
+              label: toCapitalize(command.data.name),
               value: command.data.name,
             };
           })
@@ -134,7 +122,7 @@ export async function execute(
           .map(command => command.data.category)
           .filter((x, i, a) => a.indexOf(x) == i)
           .map(category => {
-            return category.slice(0, 1).toUpperCase().concat(category.slice(1));
+            return toCapitalize(category);
           })
       )}\`\`\``
     );
@@ -150,10 +138,7 @@ export async function execute(
           .filter((x, i, a) => a.indexOf(x) == i)
           .map(category => {
             return {
-              label: category
-                .slice(0, 1)
-                .toUpperCase()
-                .concat(category.slice(1)),
+              label: toCapitalize(category),
               value: category,
             };
           })
@@ -177,7 +162,7 @@ export async function autocomplete(
         .filter((x, i, a) => a.indexOf(x) == i)
         .map(category => {
           return {
-            name: category.slice(0, 1).toUpperCase().concat(category.slice(1)),
+            name: toCapitalize(category),
             value: category,
           };
         })
@@ -192,10 +177,7 @@ export async function autocomplete(
       )
       .map(command => {
         return {
-          name: command.data.name
-            .slice(0, 1)
-            .toUpperCase()
-            .concat(command.data.name.slice(1)),
+          name: toCapitalize(command.data.name),
           value: command.data.name,
         };
       })
@@ -224,19 +206,13 @@ export async function interactions(
           new EmbedBuilder()
             .setColor(Colors.Green)
             .setDescription(
-              `# 📖 Información de ${commandOrCategory.data.name
-                .slice(0, 1)
-                .toUpperCase()
-                .concat(
-                  commandOrCategory.data.name.slice(1)
-                )}\n\n**Descripción:** ${
+              `# 📖 Información de ${toCapitalize(
+                commandOrCategory.data.name
+              )}\n\n**Descripción:** ${
                 commandOrCategory.data.description
-              }\n**Categoria:** ${commandOrCategory.data.category
-                .slice(0, 1)
-                .toUpperCase()
-                .concat(
-                  commandOrCategory.data.category.slice(1)
-                )}\n**Cooldown:** ${
+              }\n**Categoria:** ${toCapitalize(
+                commandOrCategory.data.category
+              )}\n**Cooldown:** ${
                 commandOrCategory.data?.cooldown ?? '5'
               } segundos`
             ),
@@ -266,11 +242,24 @@ export async function interactions(
   }
 }
 
+/**
+ * @function formatList
+ * @description Formats a list of commands into a columned list
+ * @param {string[]} array of strings to format
+ * @param {number} chunk number of items per column
+ * @param {string} separator string to separate columns
+ * @param {string} lineBreak string to separate lines
+ * @param {number} maxColumnWidth maximum width of a column
+ * @returns {string} formatted list
+ * @example
+ * formatList(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'], 3, '   ', '\n', 20);
+ * // returns 'a   d   g\nb   e   h\nc   f   i\nj\n'
+ */
+
 function formatList(
   array: string[],
   chunk = 3,
   separator = '   ',
-  lineBreak = '\n',
   maxColumnWidth = 20
 ): string {
   let columnWidth = Math.max(...array.map(s => s.length)) + separator.length;
@@ -279,11 +268,14 @@ function formatList(
 
   for (let i = 0; i < array.length; i += chunk) {
     const items = array.slice(i, i + chunk);
-    const currentSeparator = items.length < chunk ? lineBreak : '';
+    const currentSeparator = items.length < chunk ? '\n' : '';
     result +=
-      items.map(item => item.padEnd(columnWidth)).join(currentSeparator) +
-      lineBreak;
+      items.map(item => item.padEnd(columnWidth)).join(currentSeparator) + '\n';
   }
 
   return result;
+}
+
+function toCapitalize(str: string) {
+  return str.slice(0, 1).toUpperCase().concat(str.slice(1));
 }

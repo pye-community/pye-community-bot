@@ -1,6 +1,6 @@
 import { Events, ThreadChannel } from 'discord.js';
 import PYECommunityClient from '../modules/bot/client';
-import { cohereAIHandler } from '../modules/threads/ThreadsAi';
+import { cohereAIHandler } from '../modules/bot/functions/threadsAi';
 
 export default {
   name: Events.ThreadCreate,

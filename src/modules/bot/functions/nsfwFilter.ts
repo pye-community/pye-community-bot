@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Client, EmbedBuilder, Message } from 'discord.js';
 import dotenv from 'dotenv';
 import * as nsfwjs from 'nsfwjs';
-import config from '../../config';
+import config from '../../../config';
 dotenv.config();
 
 let model: nsfwjs.NSFWJS;

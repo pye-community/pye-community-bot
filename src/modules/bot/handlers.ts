@@ -16,7 +16,6 @@ import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
 import config from '../../config';
 import PYECommunityClient from './client';
-
 interface slashCommandData
   extends RESTPostAPIChatInputApplicationCommandsJSONBody {
   category: string;
@@ -106,7 +105,9 @@ export class clientHandlers {
 
       const now = Date.now();
       const timestamps = this.client.cooldowns.get(command.data.name);
-      const cooldownAmount = (command.data?.cooldown ?? 5) * 1000;
+      const cooldownAmount =
+        (command.data?.cooldown ??
+          this.client.config.commands.defaultcooldown) * 1000;
 
       if (timestamps?.has(interaction.user.id)) {
         const expirationTime =
