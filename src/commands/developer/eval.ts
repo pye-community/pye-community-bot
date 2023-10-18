@@ -9,7 +9,7 @@ export const data = new CommandBuilder()
   .setName('eval')
   .setDescription('Evalúa un código de JavaScript')
   .setCategory('desarrollador')
-  .setDeveloper(true)
+  .setOwnerOnly(true)
   .addStringOption(option =>
     option
       .setName('code')
