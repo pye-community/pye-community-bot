@@ -1,7 +1,7 @@
 import { Events } from 'discord.js'
 import type { Message } from 'discord.js'
 
-import { classification } from '~/context/imp/computer-vision-imp'
+import { classification } from '~/context/imp/cv-imp'
 import type { BaseEvent } from '~/utils/base'
 
 export class MessageCreateEvent implements BaseEvent {

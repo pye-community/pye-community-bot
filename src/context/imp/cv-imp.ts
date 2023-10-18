@@ -1,10 +1,10 @@
+/**
+ * Computer Vision
+ * A set of functions that can be used to image classification, object detection, and more
+ */
+
 import { HfInference } from '@huggingface/inference'
 import { env } from '~/utils/env'
-
-interface Response {
-  label: string
-  score: number
-}
 
 /**
  * Policies
@@ -30,7 +30,7 @@ type Policy = keyof typeof policies
 export async function classification(data: Uint8Array, policy: Policy) {
   const hf = new HfInference(env.HUGGINGFACE_SECRET)
 
-  const result = <Response[]> await hf.imageClassification({
+  const result = await hf.imageClassification({
     data,
     model: 'Falconsai/nsfw_image_detection',
   })
