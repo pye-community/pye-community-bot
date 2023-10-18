@@ -248,7 +248,6 @@ export async function interactions(
  * @param {string[]} array of strings to format
  * @param {number} chunk number of items per column
  * @param {string} separator string to separate columns
- * @param {string} lineBreak string to separate lines
  * @param {number} maxColumnWidth maximum width of a column
  * @returns {string} formatted list
  * @example
