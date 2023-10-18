@@ -1,6 +1,6 @@
 import { Events, Message } from 'discord.js';
 import PYECommunityClient from '../modules/bot/client';
-import { nsfwFilter } from '../modules/utils/nsfwFilter';
+import { nsfwFilter } from '../modules/moderation/nsfwFilter';
 
 export default {
   name: Events.MessageCreate,
