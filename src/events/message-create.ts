@@ -1,5 +1,7 @@
 import { Events } from 'discord.js'
 import type { Message } from 'discord.js'
+
+import { predict } from '~/context/imp/vit-base-imp'
 import type { BaseEvent } from '~/utils/base'
 
 export class MessageCreateEvent implements BaseEvent {
@@ -9,7 +11,20 @@ export class MessageCreateEvent implements BaseEvent {
     if (message.author.bot)
       return
 
-    // eslint-disable-next-line no-console
-    console.log('Message created', message.id)
+    const attachment = message.attachments.first()
+
+    if (!attachment)
+      return
+
+    const response = await fetch(attachment.url)
+
+    if (!response.ok)
+      return
+
+    const data = await response.arrayBuffer()
+    const result = await predict(new Uint8Array(data), 'nsfw')
+
+    if (result)
+      await message.delete()
   }
 }

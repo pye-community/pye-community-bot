@@ -6,6 +6,9 @@ import { z } from 'zod'
 
 export const env = createEnv({
   server: {
+    // huggingface
+    HUGGINGFACE_SECRET: z.string(),
+
     // Discord
     DISCORD_CLIENT_ID: z.string(),
     DISCORD_GUILD_ID: z.string(),
