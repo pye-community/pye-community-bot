@@ -1,21 +1,20 @@
-import { Client, GatewayIntentBits, Partials } from 'discord.js';
-import config from './config';
-import { loadEvents } from './modules/bot/eventsLoader';
+import { client } from '~/context/client'
+import { events } from '~/events'
+import { env } from '~/utils/env'
 
-export const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.MessageContent,
-  ],
-  partials: [Partials.Message, Partials.Channel],
-  allowedMentions: { parse: ['users'] },
-});
+async function start() {
+  /**
+   * Register events.
+   */
 
-loadEvents(client).catch((err) => {
-  console.error(err);
-});
-client.login(config.bot.DISCORD_TOKEN).catch((err) => {
-  console.error(err);
-});
+  for (const event of events)
+    client.on(event.name, event.run.bind(event))
+
+  /**
+   * Login to Discord.
+   */
+
+  await client.login(env.DISCORD_SECRET)
+}
+
+start()
