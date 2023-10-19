@@ -1,21 +1,36 @@
-import { Client, GatewayIntentBits, Partials } from 'discord.js';
+import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import config from './config';
-import { loadEvents } from './modules/bot/eventsLoader';
+import {
+  SlashCommand,
+  loadEvents,
+  loadSlashCommands,
+  registerSlashCommands,
+} from './modules/bot/handlers';
 
-export const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.MessageContent,
-  ],
-  partials: [Partials.Message, Partials.Channel],
-  allowedMentions: { parse: ['users'] },
-});
+export const client = {
+  config,
+  handlers: {
+    loadEvents,
+    loadSlashCommands,
+    registerSlashCommands,
+  },
+  commands: new Collection<string, SlashCommand>(),
+  cooldowns: new Collection<string, Collection<string, number>>(),
+  discordClient: new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.DirectMessages,
+      GatewayIntentBits.MessageContent,
+    ],
+    partials: [Partials.Message, Partials.Channel],
+    allowedMentions: { parse: ['roles', 'users'] },
+  }),
+};
 
-loadEvents(client).catch((err) => {
-  console.error(err);
-});
-client.login(config.bot.DISCORD_TOKEN).catch((err) => {
-  console.error(err);
-});
+export type PyeClient = typeof client;
+
+client.handlers.loadEvents(client).catch(console.error);
+client.handlers.loadSlashCommands(client).catch(console.error);
+
+client.discordClient.login(config.bot.DISCORD_TOKEN).catch(console.error);
