@@ -1,6 +1,34 @@
+import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import config from './config';
-import PYECommunityClient from './modules/bot/client';
+import {
+  SlashCommand,
+  loadEvents,
+  loadSlashCommands,
+  registerSlashCommands,
+} from './modules/bot/handlers';
 
-export const client = new PYECommunityClient();
+export const client = {
+  config,
+  handlers: {
+    loadEvents,
+    loadSlashCommands,
+    registerSlashCommands,
+  },
+  commands: new Collection<string, SlashCommand>(),
+  cooldowns: new Collection<string, Collection<string, number>>(),
+  discordClient: new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.DirectMessages,
+      GatewayIntentBits.MessageContent,
+    ],
+    partials: [Partials.Message, Partials.Channel],
+    allowedMentions: { parse: ['roles', 'users'] },
+  }),
+};
 
-client.login(config.bot.DISCORD_TOKEN).catch(console.error);
+client.handlers.loadEvents(client).catch(console.error);
+client.handlers.loadSlashCommands(client).catch(console.error);
+
+client.discordClient.login(config.bot.DISCORD_TOKEN).catch(console.error);

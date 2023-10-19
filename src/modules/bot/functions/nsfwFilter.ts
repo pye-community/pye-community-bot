@@ -1,8 +1,9 @@
 import * as tf from '@tensorflow/tfjs-node';
 import axios from 'axios';
-import { Client, EmbedBuilder, Message } from 'discord.js';
+import { EmbedBuilder, Message } from 'discord.js';
 import dotenv from 'dotenv';
 import * as nsfwjs from 'nsfwjs';
+import { client } from '../../..';
 import config from '../../../config';
 dotenv.config();
 
@@ -22,11 +23,11 @@ const keys = ['Porn', 'Sexy', 'Hentai'];
 
 export const nsfwFilter = async function (
   message: Message,
-  client: Client
+  pyeClient: typeof client
 ): Promise<void> {
   if (!message.member) return;
   if (message.attachments.size === 0) return;
-  if (!message.member?.roles.cache.find(r => r.id === '780597611496865792'))
+  if (!message.member?.roles.cache.find(r => r.id === '1058280838900486165'))
     return;
 
   for (const attachment of message.attachments) {
@@ -49,7 +50,7 @@ export const nsfwFilter = async function (
         casualty.probability >= thresholds[name as keyof typeof thresholds]
       ) {
         await message.delete();
-        report(client, message, url).catch(err => console.log(err));
+        report(pyeClient, message, url).catch(err => console.log(err));
 
         return;
       }
@@ -57,8 +58,8 @@ export const nsfwFilter = async function (
   }
 };
 
-async function report(client: Client, message: Message, url: string) {
-  const reportChannel = await client.channels.fetch(
+async function report(pyeClient: typeof client, message: Message, url: string) {
+  const reportChannel = await pyeClient.discordClient.channels.fetch(
     config.channels.reports_channel
   );
 

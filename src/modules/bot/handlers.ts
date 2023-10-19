@@ -14,8 +14,9 @@ import {
 } from 'discord.js';
 import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
+import { client } from '../..';
 import config from '../../config';
-import PYECommunityClient from './client';
+
 interface slashCommandData
   extends RESTPostAPIChatInputApplicationCommandsJSONBody {
   category: string;
@@ -27,17 +28,14 @@ interface slashCommandData
 
 export interface SlashCommand {
   data: slashCommandData;
-  execute: (
-    interaction: CommandInteraction,
-    client?: PYECommunityClient
-  ) => void;
+  execute: (interaction: CommandInteraction, pyeClient?: typeof client) => void;
   autocomplete?: (
     interaction: AutocompleteInteraction,
-    client?: PYECommunityClient
+    pyeClient?: typeof client
   ) => void;
   interactions?: (
     interaction: ButtonInteraction | StringSelectMenuInteraction,
-    client?: PYECommunityClient
+    pyeClient?: typeof client
   ) => void;
 }
 
@@ -47,139 +45,140 @@ export interface Event {
   execute: (...args: any[]) => void;
 }
 
-export class clientHandlers {
-  client: PYECommunityClient;
+export async function loadSlashCommands(
+  pyeClient: typeof client,
+  dir: string = 'commands'
+) {
+  const basePath = join(
+    process.cwd(),
+    process.argv.includes('dev') ? 'src' : 'build'
+  );
+  const files = readdirSync(join(basePath, dir));
 
-  constructor(client: PYECommunityClient) {
-    this.client = client;
+  for (const file of files) {
+    const filePath = join(basePath, dir, file);
+    const stat = lstatSync(filePath);
+
+    if (stat.isDirectory()) {
+      await loadSlashCommands(client, join(dir, file));
+      continue;
+    }
+
+    if (!/\.(ts|js)$/.test(file)) continue;
+    const command = (await import(filePath)) as SlashCommand;
+    client.commands.set(command.data.name, command);
   }
+  return pyeClient;
+}
 
-  async loadSlashCommands(dir: string = 'commands') {
-    const basePath = join(
-      process.cwd(),
-      process.argv.includes('dev') ? 'src' : 'build'
+export async function checkCommandPermissions(
+  pyeClient: typeof client,
+  interaction: CommandInteraction
+) {
+  const command = pyeClient.commands.get(interaction.commandName);
+
+  if (!command) return;
+  const embed = new EmbedBuilder()
+    .setColor(Colors.Red)
+    .setDescription(
+      '### 🔒 ***`Lo sentimos, pero no tienes permisos para usar este comando.`***'
     );
-    const files = readdirSync(join(basePath, dir));
 
-    for (const file of files) {
-      const filePath = join(basePath, dir, file);
-      const stat = lstatSync(filePath);
+  if (
+    command.data.developer &&
+    !config.users.developers.includes(interaction.user.id)
+  )
+    return interaction.reply({ embeds: [embed], ephemeral: true });
+  if (
+    command.data.ownerOnly &&
+    !config.users.owners.includes(interaction.user.id)
+  )
+    return interaction.reply({ embeds: [embed], ephemeral: true });
+  if (command.data.guildOnly && !interaction.guildId)
+    return interaction.reply({ embeds: [embed], ephemeral: true });
+  if (command.data.cooldown) {
+    if (!pyeClient.cooldowns.has(command.data.name))
+      pyeClient.cooldowns.set(command.data.name, new Collection());
 
-      if (stat.isDirectory()) {
-        await this.loadSlashCommands(join(dir, file));
-        continue;
+    const now = Date.now();
+    const timestamps = pyeClient.cooldowns.get(command.data.name);
+    const cooldownAmount =
+      (command.data?.cooldown ?? pyeClient.config.commands.defaultcooldown) *
+      1000;
+
+    if (timestamps?.has(interaction.user.id)) {
+      const expirationTime =
+        (timestamps.get(interaction.user.id) as number) + cooldownAmount;
+
+      if (now < expirationTime) {
+        const timeLeft = (expirationTime - now) / 1000;
+        return interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(Colors.Red)
+              .setDescription(
+                `### 🔒 ***\`Por favor, espera ${timeLeft.toFixed(
+                  1
+                )} segundos antes de volver a usar el comando.\`***`
+              ),
+          ],
+          ephemeral: true,
+        });
       }
-
-      if (!/\.(ts|js)$/.test(file)) continue;
-      const command = (await import(filePath)) as SlashCommand;
-      this.client.commands.set(command.data.name, command);
-    }
-    return this;
-  }
-
-  async checkCommandPermissions(interaction: CommandInteraction) {
-    const command = this.client.commands.get(interaction.commandName);
-
-    if (!command) return;
-    const embed = new EmbedBuilder()
-      .setColor(Colors.Red)
-      .setDescription(
-        '### 🔒 ***`Lo sentimos, pero no tienes permisos para usar este comando.`***'
-      );
-
-    if (
-      command.data.developer &&
-      !config.users.developers.includes(interaction.user.id)
-    )
-      return interaction.reply({ embeds: [embed], ephemeral: true });
-    if (
-      command.data.ownerOnly &&
-      !config.users.owners.includes(interaction.user.id)
-    )
-      return interaction.reply({ embeds: [embed], ephemeral: true });
-    if (command.data.guildOnly && !interaction.guildId)
-      return interaction.reply({ embeds: [embed], ephemeral: true });
-    if (command.data.cooldown) {
-      if (!this.client.cooldowns.has(command.data.name))
-        this.client.cooldowns.set(command.data.name, new Collection());
-
-      const now = Date.now();
-      const timestamps = this.client.cooldowns.get(command.data.name);
-      const cooldownAmount =
-        (command.data?.cooldown ??
-          this.client.config.commands.defaultcooldown) * 1000;
-
-      if (timestamps?.has(interaction.user.id)) {
-        const expirationTime =
-          (timestamps.get(interaction.user.id) as number) + cooldownAmount;
-
-        if (now < expirationTime) {
-          const timeLeft = (expirationTime - now) / 1000;
-          return interaction.reply({
-            embeds: [
-              new EmbedBuilder()
-                .setColor(Colors.Red)
-                .setDescription(
-                  `### 🔒 ***\`Por favor, espera ${timeLeft.toFixed(
-                    1
-                  )} segundos antes de volver a usar el comando.\`***`
-                ),
-            ],
-            ephemeral: true,
-          });
-        }
-      }
-
-      timestamps?.set(interaction.user.id, now);
-      setTimeout(() => timestamps?.delete(interaction.user.id), cooldownAmount);
     }
 
-    return false;
+    timestamps?.set(interaction.user.id, now);
+    setTimeout(() => timestamps?.delete(interaction.user.id), cooldownAmount);
   }
 
-  async registerSlashCommands(commands: SlashCommand[]) {
-    const rest = new REST({ version: '9' }).setToken(config.bot.DISCORD_TOKEN);
-    await rest
-      .put(
-        Routes.applicationGuildCommands(
-          config.bot.CLIENT_ID,
-          config.bot.GUILD_ID
-        ),
-        { body: commands.map(command => command.data) }
-      )
-      .then(() => console.log('Successfully registered application commands.'))
-      .catch(console.error);
-  }
+  return false;
+}
 
-  async loadEvents(dir: string = 'events') {
-    const basePath = join(
-      process.cwd(),
-      process.argv.includes('dev') ? 'src' : 'build'
+export async function registerSlashCommands(commands: SlashCommand[]) {
+  const rest = new REST({ version: '9' }).setToken(config.bot.DISCORD_TOKEN);
+  await rest
+    .put(
+      Routes.applicationGuildCommands(
+        config.bot.CLIENT_ID,
+        config.bot.GUILD_ID
+      ),
+      { body: commands.map(command => command.data) }
+    )
+    .then(() => console.log('Successfully registered application commands.'))
+    .catch(console.error);
+}
+
+export async function loadEvents(
+  pyeClient: typeof client,
+  dir: string = 'events'
+) {
+  const basePath = join(
+    process.cwd(),
+    process.argv.includes('dev') ? 'src' : 'build'
+  );
+  const files = readdirSync(join(basePath, dir));
+  for (const file of files) {
+    const filePath = join(basePath, dir, file);
+    const stat = lstatSync(filePath);
+
+    if (stat.isDirectory()) {
+      await loadEvents(pyeClient, join(dir, file)).catch(console.error);
+      continue;
+    }
+
+    if (!/\.(ts|js)$/.test(file)) continue;
+    const event = (await import(filePath)) as { default: Event };
+    if (!event.default) continue;
+    const { name, once, execute } = event.default;
+
+    (once ? pyeClient.discordClient.once : pyeClient.discordClient.on).call(
+      pyeClient.discordClient,
+      name,
+      execute.bind(null, pyeClient)
     );
-    const files = readdirSync(join(basePath, dir));
-    for (const file of files) {
-      const filePath = join(basePath, dir, file);
-      const stat = lstatSync(filePath);
-
-      if (stat.isDirectory()) {
-        await this.loadEvents(join(dir, file)).catch(console.error);
-        continue;
-      }
-
-      if (!/\.(ts|js)$/.test(file)) continue;
-      const event = (await import(filePath)) as { default: Event };
-      if (!event.default) continue;
-      const { name, once, execute } = event.default;
-
-      (once ? this.client.once : this.client.on).call(
-        this.client,
-        name,
-        execute.bind(null, this.client)
-      );
-    }
-
-    return this;
   }
+
+  return client;
 }
 
 export class CommandBuilder extends SlashCommandBuilder {

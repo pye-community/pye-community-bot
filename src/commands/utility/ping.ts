@@ -1,5 +1,5 @@
 import { Colors, CommandInteraction, EmbedBuilder } from 'discord.js';
-import PYECommunityClient from '../../modules/bot/client';
+import { client } from '../..';
 import { CommandBuilder } from '../../modules/bot/handlers';
 
 export const data = new CommandBuilder()
@@ -9,7 +9,7 @@ export const data = new CommandBuilder()
 
 export async function execute(
   interaction: CommandInteraction,
-  client: PYECommunityClient
+  pyeClient: typeof client
 ) {
   const time = Date.now();
 
@@ -27,7 +27,7 @@ export async function execute(
     embeds: [
       new EmbedBuilder()
         .setDescription(
-          `# 🏓 Pong! \n💬 Mensajes: **\`${ping}ms\`**\n 🔌 Gateway: **\`${client.ws.ping}ms\`**`
+          `# 🏓 Pong! \n💬 Mensajes: **\`${ping}ms\`**\n 🔌 Gateway: **\`${pyeClient.discordClient.ws.ping}ms\`**`
         )
         .setColor(Colors.Blue),
     ],

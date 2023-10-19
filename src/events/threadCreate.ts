@@ -1,11 +1,11 @@
 import { Events, ThreadChannel } from 'discord.js';
-import PYECommunityClient from '../modules/bot/client';
+import { client } from '..';
 import { cohereAIHandler } from '../modules/bot/functions/threadsAi';
 
 export default {
   name: Events.ThreadCreate,
   once: false,
-  async execute(client: PYECommunityClient, thread: ThreadChannel) {
+  async execute(pyeClient: typeof client, thread: ThreadChannel) {
     await cohereAIHandler(thread);
   },
 };

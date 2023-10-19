@@ -6,7 +6,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
 } from 'discord.js';
-import PYECommunityClient from '../../modules/bot/client';
+import { client } from '../..';
 import { CommandBuilder } from '../../modules/bot/handlers';
 
 export const data = new CommandBuilder()
@@ -28,11 +28,11 @@ export const data = new CommandBuilder()
 
 export async function execute(
   interaction: CommandInteraction,
-  client: PYECommunityClient
+  pyeClient: typeof client
 ) {
   const embed = new EmbedBuilder()
       .setColor(Colors.Green)
-      .setThumbnail(client.user?.displayAvatarURL() ?? ''),
+      .setThumbnail(pyeClient.discordClient.user?.displayAvatarURL() ?? ''),
     menu = new StringSelectMenuBuilder()
       .setCustomId('help')
       .setPlaceholder(`Selecciona una opcion`),
@@ -153,7 +153,7 @@ export async function execute(
 
 export async function autocomplete(
   interaction: AutocompleteInteraction,
-  client: PYECommunityClient
+  pyeClient: typeof client
 ) {
   if (interaction.options.get('categoria'))
     return await interaction.respond(
@@ -186,7 +186,7 @@ export async function autocomplete(
 
 export async function interactions(
   interaction: StringSelectMenuInteraction,
-  client: PYECommunityClient
+  pyeClient: typeof client
 ) {
   const commandOrCategory =
     client.commands.get(interaction?.values?.[0]) ??
