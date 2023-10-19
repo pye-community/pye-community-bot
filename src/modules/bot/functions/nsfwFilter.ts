@@ -4,10 +4,8 @@ import config from '../../../config';
 
 const { HF_SECRET } = process.env;
 
-import dotenv from 'dotenv';
 import { EmbedBuilder, Message } from 'discord.js';
 import { PyeClient } from '../../..';
-dotenv.config();
 
 interface Response { label: string, score: number }
 
@@ -17,6 +15,11 @@ export async function nsfwFilter(
 ): Promise<void> {
   if (!message.member) return;
   if (message.attachments.size === 0) return;
+  if (!message.member || !message.member.joinedAt) return;
+  // day lapse in milliseconds
+  if (((new Date().getTime() - message.member.joinedAt.getTime()) / 86400000) > 1)
+    return;
+
   if (!message.member?.roles.cache.find(r => r.id === '1058280838900486165'))
     return;
 
