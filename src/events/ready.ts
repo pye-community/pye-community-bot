@@ -1,10 +1,10 @@
 import { Events } from 'discord.js';
-import { client } from '..';
+import { PyeClient, client } from '..';
 
 export default {
   name: Events.ClientReady,
   once: true,
-  execute(pyeClient: typeof client) {
+  execute(pyeClient: PyeClient) {
     console.log(
       `Ready! Logged in as ${
         client.discordClient.user?.displayName ??

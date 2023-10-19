@@ -6,7 +6,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
 } from 'discord.js';
-import { client } from '../..';
+import { PyeClient, client } from '../..';
 import { CommandBuilder } from '../../modules/bot/handlers';
 
 export const data = new CommandBuilder()
@@ -28,7 +28,7 @@ export const data = new CommandBuilder()
 
 export async function execute(
   interaction: CommandInteraction,
-  pyeClient: typeof client
+  pyeClient: PyeClient
 ) {
   const embed = new EmbedBuilder()
       .setColor(Colors.Green)
@@ -153,7 +153,7 @@ export async function execute(
 
 export async function autocomplete(
   interaction: AutocompleteInteraction,
-  pyeClient: typeof client
+  pyeClient: PyeClient
 ) {
   if (interaction.options.get('categoria'))
     return await interaction.respond(
@@ -186,7 +186,7 @@ export async function autocomplete(
 
 export async function interactions(
   interaction: StringSelectMenuInteraction,
-  pyeClient: typeof client
+  pyeClient: PyeClient
 ) {
   const commandOrCategory =
     client.commands.get(interaction?.values?.[0]) ??

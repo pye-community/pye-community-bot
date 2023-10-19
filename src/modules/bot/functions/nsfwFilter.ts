@@ -3,7 +3,7 @@ import axios from 'axios';
 import { EmbedBuilder, Message } from 'discord.js';
 import dotenv from 'dotenv';
 import * as nsfwjs from 'nsfwjs';
-import { client } from '../../..';
+import { PyeClient } from '../../..';
 import config from '../../../config';
 dotenv.config();
 
@@ -23,7 +23,7 @@ const keys = ['Porn', 'Sexy', 'Hentai'];
 
 export const nsfwFilter = async function (
   message: Message,
-  pyeClient: typeof client
+  pyeClient: PyeClient
 ): Promise<void> {
   if (!message.member) return;
   if (message.attachments.size === 0) return;
@@ -58,7 +58,7 @@ export const nsfwFilter = async function (
   }
 };
 
-async function report(pyeClient: typeof client, message: Message, url: string) {
+async function report(pyeClient: PyeClient, message: Message, url: string) {
   const reportChannel = await pyeClient.discordClient.channels.fetch(
     config.channels.reports_channel
   );

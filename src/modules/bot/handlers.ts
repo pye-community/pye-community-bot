@@ -14,7 +14,7 @@ import {
 } from 'discord.js';
 import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { client } from '../..';
+import { PyeClient, client } from '../..';
 import config from '../../config';
 
 interface slashCommandData
@@ -28,14 +28,14 @@ interface slashCommandData
 
 export interface SlashCommand {
   data: slashCommandData;
-  execute: (interaction: CommandInteraction, pyeClient?: typeof client) => void;
+  execute: (interaction: CommandInteraction, pyeClient?: PyeClient) => void;
   autocomplete?: (
     interaction: AutocompleteInteraction,
-    pyeClient?: typeof client
+    pyeClient?: PyeClient
   ) => void;
   interactions?: (
     interaction: ButtonInteraction | StringSelectMenuInteraction,
-    pyeClient?: typeof client
+    pyeClient?: PyeClient
   ) => void;
 }
 
@@ -46,7 +46,7 @@ export interface Event {
 }
 
 export async function loadSlashCommands(
-  pyeClient: typeof client,
+  pyeClient: PyeClient,
   dir: string = 'commands'
 ) {
   const basePath = join(
@@ -72,7 +72,7 @@ export async function loadSlashCommands(
 }
 
 export async function checkCommandPermissions(
-  pyeClient: typeof client,
+  pyeClient: PyeClient,
   interaction: CommandInteraction
 ) {
   const command = pyeClient.commands.get(interaction.commandName);
@@ -148,10 +148,7 @@ export async function registerSlashCommands(commands: SlashCommand[]) {
     .catch(console.error);
 }
 
-export async function loadEvents(
-  pyeClient: typeof client,
-  dir: string = 'events'
-) {
+export async function loadEvents(pyeClient: PyeClient, dir: string = 'events') {
   const basePath = join(
     process.cwd(),
     process.argv.includes('dev') ? 'src' : 'build'

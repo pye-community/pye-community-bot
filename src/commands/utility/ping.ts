@@ -1,5 +1,5 @@
 import { Colors, CommandInteraction, EmbedBuilder } from 'discord.js';
-import { client } from '../..';
+import { PyeClient } from '../..';
 import { CommandBuilder } from '../../modules/bot/handlers';
 
 export const data = new CommandBuilder()
@@ -9,7 +9,7 @@ export const data = new CommandBuilder()
 
 export async function execute(
   interaction: CommandInteraction,
-  pyeClient: typeof client
+  pyeClient: PyeClient
 ) {
   const time = Date.now();
 

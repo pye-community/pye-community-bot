@@ -28,6 +28,8 @@ export const client = {
   }),
 };
 
+export type PyeClient = typeof client;
+
 client.handlers.loadEvents(client).catch(console.error);
 client.handlers.loadSlashCommands(client).catch(console.error);
 

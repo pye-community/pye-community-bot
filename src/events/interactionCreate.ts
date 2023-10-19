@@ -1,11 +1,11 @@
 import { Colors, Events, Interaction } from 'discord.js';
-import { client } from '..';
+import { PyeClient, client } from '..';
 import { checkCommandPermissions } from '../modules/bot/handlers';
 
 export default {
   name: Events.InteractionCreate,
   once: false,
-  async execute(pyeClient: typeof client, interaction: Interaction) {
+  async execute(pyeClient: PyeClient, interaction: Interaction) {
     if (interaction.isStringSelectMenu()) {
       const slashCommand = client?.commands.get(interaction.customId);
       if (!slashCommand) return;
