@@ -84,18 +84,22 @@ export async function checkCommandPermissions(
       '### 🔒 ***`Lo sentimos, pero no tienes permisos para usar este comando.`***'
     );
 
-  if (
-    command.data.developer &&
-    !config.users.developers.includes(interaction.user.id)
-  )
-    return interaction.reply({ embeds: [embed], ephemeral: true });
-  if (
-    command.data.ownerOnly &&
-    !config.users.owners.includes(interaction.user.id)
-  )
-    return interaction.reply({ embeds: [embed], ephemeral: true });
-  if (command.data.guildOnly && !interaction.guildId)
-    return interaction.reply({ embeds: [embed], ephemeral: true });
+  const conditions = {
+    developer: () =>
+      command.data.developer &&
+      !config.users.developers.includes(interaction.user.id),
+    ownerOnly: () =>
+      command.data.ownerOnly &&
+      !config.users.owners.includes(interaction.user.id),
+    guildOnly: () => command.data.guildOnly && !interaction.guildId,
+  };
+
+  for (const condition in conditions) {
+    if (conditions[condition as keyof typeof conditions]()) {
+      return interaction.reply({ embeds: [embed], ephemeral: true });
+    }
+  }
+
   if (command.data.cooldown) {
     if (!pyeClient.cooldowns.has(command.data.name))
       pyeClient.cooldowns.set(command.data.name, new Collection());
@@ -110,21 +114,20 @@ export async function checkCommandPermissions(
       const expirationTime =
         (timestamps.get(interaction.user.id) as number) + cooldownAmount;
 
-      if (now < expirationTime) {
-        const timeLeft = (expirationTime - now) / 1000;
-        return interaction.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setColor(Colors.Red)
-              .setDescription(
-                `### 🔒 ***\`Por favor, espera ${timeLeft.toFixed(
-                  1
-                )} segundos antes de volver a usar el comando.\`***`
-              ),
-          ],
-          ephemeral: true,
-        });
-      }
+      if (now >= expirationTime) return;
+      const timeLeft = (expirationTime - now) / 1000;
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(Colors.Red)
+            .setDescription(
+              `### 🔒 ***\`Por favor, espera ${timeLeft.toFixed(
+                1
+              )} segundos antes de volver a usar el comando.\`***`
+            ),
+        ],
+        ephemeral: true,
+      });
     }
 
     timestamps?.set(interaction.user.id, now);
