@@ -210,7 +210,7 @@ export class CommandBuilder extends SlashCommandBuilder {
     this.developer = false;
     this.ownerOnly = false;
     this.guildOnly = false;
-    this.cooldown = 5;
+    this.cooldown = config.commands.defaultcooldown;
   }
 
   /**
