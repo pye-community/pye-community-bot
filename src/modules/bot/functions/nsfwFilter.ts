@@ -1,27 +1,17 @@
-import * as tf from '@tensorflow/tfjs-node';
-import axios from 'axios';
-import { EmbedBuilder, Message } from 'discord.js';
-import dotenv from 'dotenv';
-import * as nsfwjs from 'nsfwjs';
-import { PyeClient } from '../../..';
+import { HfInference } from '@huggingface/inference';
+
 import config from '../../../config';
+
+const { HF_SECRET } = process.env;
+
+import dotenv from 'dotenv';
+import { EmbedBuilder, Message } from 'discord.js';
+import { PyeClient } from '../../..';
 dotenv.config();
 
-let model: nsfwjs.NSFWJS;
-nsfwjs
-  .load()
-  .then(r => (model = r))
-  .catch(err => console.log(err));
+interface Response { label: string, score: number }
 
-const thresholds = {
-  Porn: 0.4,
-  Sexy: 0.6,
-  Hentai: 0.6,
-};
-
-const keys = ['Porn', 'Sexy', 'Hentai'];
-
-export const nsfwFilter = async function (
+export async function nsfwFilter(
   message: Message,
   pyeClient: PyeClient
 ): Promise<void> {
@@ -34,29 +24,38 @@ export const nsfwFilter = async function (
     const url = attachment[1]?.url;
     if (!url) break;
 
-    let response = await axios.get(url, {
-      responseType: 'arraybuffer',
-    });
-    const imageBuffer = response.data as Buffer;
-
-    const img = tf.node.decodeImage(imageBuffer, 3);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const prediction = await model.classify(img as any);
-
-    for (const casualty of prediction) {
-      const name = casualty.className;
-      if (
-        keys.includes(name) &&
-        casualty.probability >= thresholds[name as keyof typeof thresholds]
-      ) {
-        await message.delete();
-        report(pyeClient, message, url).catch(err => console.log(err));
-
-        return;
-      }
+    const prediction = await predict(url);
+    if (prediction) {
+      await message.delete();
+      report(pyeClient, message, url).catch(err => console.log(err));
+      return;
     }
   }
-};
+}
+
+async function predict(url: string): Promise<boolean> {
+  const hf = new HfInference(HF_SECRET);
+  const data = await (await fetch(url)).arrayBuffer();
+
+  if (!data) return false;
+
+  const result = <Response[]> await hf.imageClassification({
+    data,
+    model: config.nsfw.model,
+  });
+
+  const labels = result.filter(x => {
+    const labels = x.label.split(', ');
+    const unique = [...new Set(labels.map(y => y.toLowerCase()))];
+
+    return unique.includes('nsfw');
+  });
+
+  if (!labels.length) return false;
+  const score = Math.max(...labels.map(x => x.score));
+
+  return score >= config.nsfw.threshold;
+}
 
 async function report(pyeClient: PyeClient, message: Message, url: string) {
   const reportChannel = await pyeClient.discordClient.channels.fetch(

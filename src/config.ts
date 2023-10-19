@@ -28,6 +28,10 @@ const config = {
   commands: {
     defaultcooldown: 5,
   },
+  nsfw: {
+    model: 'Falconsai/nsfw_image_detectiont',
+    threshold: 8,
+  },
 };
 
 export default config;
