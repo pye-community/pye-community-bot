@@ -30,6 +30,9 @@ const config = {
   },
   nsfw: {
     model: 'Falconsai/nsfw_image_detectiont',
+    target: {
+      id: '780597611496865792'
+    },
     threshold: 8,
   },
 };

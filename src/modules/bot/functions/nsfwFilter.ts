@@ -5,6 +5,7 @@ import config from '../../../config';
 const { HF_SECRET } = process.env;
 
 import { EmbedBuilder, Message } from 'discord.js';
+import { report } from '../../helpers/reporting';
 import { PyeClient } from '../../..';
 
 interface Response { label: string, score: number }
@@ -20,7 +21,7 @@ export async function nsfwFilter(
   if (((new Date().getTime() - message.member.joinedAt.getTime()) / 86400000) > 1)
     return;
 
-  if (!message.member?.roles.cache.find(r => r.id === '1058280838900486165'))
+  if (!message.member?.roles.cache.find(r => r.id === config.nsfw.target.id))
     return;
 
   for (const attachment of message.attachments) {
@@ -58,28 +59,4 @@ async function predict(url: string): Promise<boolean> {
   const score = Math.max(...labels.map(x => x.score));
 
   return score >= config.nsfw.threshold;
-}
-
-async function report(pyeClient: PyeClient, message: Message, url: string) {
-  const reportChannel = await pyeClient.discordClient.channels.fetch(
-    config.channels.reports_channel
-  );
-
-  if (reportChannel?.isTextBased()) {
-    await reportChannel.send({
-      embeds: [
-        new EmbedBuilder()
-          .setColor(0xff0000)
-          .setTitle('NSFW filter triggered')
-          .addFields({ name: 'at', value: `<#${message.channelId}>` })
-          .addFields({
-            name: 'by',
-            value: `${message.member?.displayName ?? ''} - ${
-              message.member?.id ?? ''
-            }`,
-          })
-          .addFields({ name: 'nsfw content', value: url }),
-      ],
-    });
-  }
 }
