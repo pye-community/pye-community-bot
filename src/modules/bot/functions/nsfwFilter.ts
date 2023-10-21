@@ -4,11 +4,14 @@ import config from '../../../config';
 
 const { HF_SECRET } = process.env;
 
-import { EmbedBuilder, Message } from 'discord.js';
-import { report } from '../../helpers/reporting';
+import { Message } from 'discord.js';
 import { PyeClient } from '../../..';
+import { report } from '../../helpers/reporting';
 
-interface Response { label: string, score: number }
+interface Response {
+  label: string;
+  score: number;
+}
 
 export async function nsfwFilter(
   message: Message,
@@ -16,10 +19,15 @@ export async function nsfwFilter(
 ): Promise<void> {
   if (!message.member) return;
   if (message.attachments.size === 0) return;
+  if (!HF_SECRET) {
+    console.error(
+      'Warn: The HF_SECRET key is missing. To enable the NSFW filter, please provide the API key in the .env file.'
+    );
+    return;
+  }
   if (!message.member || !message.member.joinedAt) return;
   // day lapse in milliseconds
-  if (((new Date().getTime() - message.member.joinedAt.getTime()) / 86400000) > 1)
-    return;
+  if ((Date.now() - message.member.joinedAt.getTime()) / 86400000 > 1) return;
 
   if (!message.member?.roles.cache.find(r => r.id === config.nsfw.target.id))
     return;
@@ -43,7 +51,7 @@ async function predict(url: string): Promise<boolean> {
 
   if (!data) return false;
 
-  const result = <Response[]> await hf.imageClassification({
+  const result = <Response[]>await hf.imageClassification({
     data,
     model: config.nsfw.model,
   });
