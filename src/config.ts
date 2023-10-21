@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-const { CLIENT_ID, DISCORD_TOKEN, GUILD_ID } = process.env;
+const { CLIENT_ID, DISCORD_TOKEN, GUILD_ID, HF_SECRET } = process.env;
 
 if (!CLIENT_ID || !DISCORD_TOKEN || !GUILD_ID) {
   throw new Error('Missing environment variables');
@@ -11,6 +11,7 @@ const config = {
     CLIENT_ID,
     DISCORD_TOKEN,
     GUILD_ID,
+    HF_SECRET,
   },
 
   /**

@@ -1,12 +1,8 @@
+import { report } from '@/helpers/reporting';
 import { HfInference } from '@huggingface/inference';
-
-import config from '../../../config';
-
-const { HF_SECRET } = process.env;
-
 import { Message } from 'discord.js';
-import { PyeClient } from '../../..';
-import { report } from '../../helpers/reporting';
+import config from '../../../config';
+import { PyeClient } from '../../../index';
 
 interface Response {
   label: string;
@@ -19,7 +15,7 @@ export async function nsfwFilter(
 ): Promise<void> {
   if (!message.member) return;
   if (message.attachments.size === 0) return;
-  if (!HF_SECRET) {
+  if (!config.bot.HF_SECRET) {
     console.error(
       'Warn: The HF_SECRET key is missing. To enable the NSFW filter, please provide the API key in the .env file.'
     );
@@ -46,7 +42,7 @@ export async function nsfwFilter(
 }
 
 async function predict(url: string): Promise<boolean> {
-  const hf = new HfInference(HF_SECRET);
+  const hf = new HfInference(config.bot.HF_SECRET);
   const data = await (await fetch(url)).arrayBuffer();
 
   if (!data) return false;

@@ -9,7 +9,11 @@
     "sourceMap": true,
     "outDir": "./build",
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/modules/*"]
+    }
   },
   "compileOnSave": true,
   "include": ["./src"],

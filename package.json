@@ -7,8 +7,8 @@
     "start": "pnpm lint && pnpm format:check && pnpm build && node build/index.js",
     "clean": "rimraf ./build",
     "prebuild": "pnpm run clean",
-    "dev": "pnpm ts-node-dev --respawn --transpile-only src/index.ts dev",
-    "build": "tsc",
+    "dev": "pnpm ts-node-dev -r tsconfig-paths/register --transpile-only ./src/index.ts dev",
+    "build": "tsc && tsc-alias",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "pnpm exec prettier --write .",
@@ -39,6 +39,8 @@
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
     "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.8",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2"
   }
 }

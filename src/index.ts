@@ -1,11 +1,11 @@
-import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
-import config from './config';
 import {
-  SlashCommand,
   loadEvents,
   loadSlashCommands,
   registerSlashCommands,
-} from './modules/bot/handlers';
+  SlashCommand,
+} from '@/bot/handlers';
+import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
+import config from './config';
 
 export const client = {
   config,

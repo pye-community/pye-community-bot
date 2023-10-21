@@ -1,3 +1,4 @@
+import { CommandBuilder } from '@/bot/handlers';
 import {
   AutocompleteInteraction,
   Colors,
@@ -6,8 +7,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
 } from 'discord.js';
-import { PyeClient, client } from '../..';
-import { CommandBuilder } from '../../modules/bot/handlers';
+import { PyeClient, client } from '../../index';
 
 export const data = new CommandBuilder()
   .setName('help')

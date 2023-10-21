@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
+import { CommandBuilder } from '@/bot/handlers';
 import { Colors, CommandInteraction } from 'discord.js';
 import { inspect } from 'util';
-import { CommandBuilder } from './../../modules/bot/handlers';
 
 export const data = new CommandBuilder()
   .setName('eval')
