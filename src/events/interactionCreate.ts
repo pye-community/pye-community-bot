@@ -1,6 +1,7 @@
 import { Colors, Events, Interaction } from 'discord.js';
 import { PyeClient, client } from '..';
 import { checkCommandPermissions } from '../modules/bot/handlers';
+import { reportError } from '../modules/helpers/reporting';
 
 export default {
   name: Events.InteractionCreate,
@@ -38,6 +39,30 @@ export default {
       });
 
     if (await checkCommandPermissions(client, interaction)) return;
-    slashCommand?.execute(interaction, client);
+    try {
+      await slashCommand?.execute(interaction, client);
+    } catch (e) {
+      reportError(client, interaction, e as Error).catch(console.error);
+      await interaction.reply({
+        embeds: [
+          {
+            description:
+              '### 🚨 ***`Lo sentimos, pero ocurrió un error al ejecutar el comando.`***',
+            color: Colors.Red,
+          },
+        ],
+        
+      }).catch(async () => {
+        await interaction.followUp({
+          embeds: [
+            {
+              description:
+                '### 🚨 ***`Lo sentimos, pero ocurrió un error al ejecutar el comando.`***',
+              color: Colors.Red,
+            },
+          ],
+        });
+      });
+    }
   },
 };

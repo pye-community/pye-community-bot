@@ -46,7 +46,7 @@ export async function execute(interaction: CommandInteraction) {
     )
       result = await result;
 
-    interaction
+    await interaction
       .reply({
         embeds: [
           {
@@ -59,10 +59,9 @@ export async function execute(interaction: CommandInteraction) {
           },
         ],
         ephemeral: !!secret,
-      })
-      .catch(console.error);
+      });
   } catch (error: any) {
-    interaction
+    await interaction
       .reply({
         embeds: [
           {
@@ -71,7 +70,7 @@ export async function execute(interaction: CommandInteraction) {
           },
         ],
         ephemeral: !!secret,
-      })
-      .catch(console.error);
+      });
+      
   }
 }

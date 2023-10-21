@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from 'discord.js';
+import { CommandInteraction, EmbedBuilder, Message } from 'discord.js';
 import { PyeClient } from '../..';
 import config from '../../config';
 
@@ -25,6 +25,38 @@ export async function report(
             }`,
           })
           .addFields({ name: 'nsfw content', value: url }),
+      ],
+    });
+  }
+}
+
+export async function reportError(
+  pyeClient: PyeClient,
+  message: CommandInteraction,
+  error: Error
+) {
+  const reportChannel = await pyeClient.discordClient.channels.fetch(
+    config.channels.errors_channel
+  );
+
+  if (reportChannel?.isTextBased()) {
+    await reportChannel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(0xff0000)
+          .setTitle('Error')
+          .addFields({ name: 'at', value: `<#${message.channelId}>` })
+          .addFields({ name: 'command', value: message.commandName })
+          .addFields({
+            name: 'by',
+            value: `${message.member?.user.username ?? ''} - ${
+              message.member?.user.id ?? ''
+            }`,
+          })
+          .addFields({ name: 'error', value: error.message }).addFields({
+            name: 'stack',
+            value: `\`\`\`${error.stack ?? ''}\`\`\``,
+          })
       ],
     });
   }
