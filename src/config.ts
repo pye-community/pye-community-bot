@@ -29,11 +29,11 @@ const config = {
     defaultcooldown: 5,
   },
   nsfw: {
-    model: 'Falconsai/nsfw_image_detectiont',
+    model: 'Falconsai/nsfw_image_detection',
     target: {
-      id: '780597611496865792'
+      id: '780597611496865792', // rol novato
     },
-    threshold: 8,
+    threshold: 0.8,
   },
 };
 

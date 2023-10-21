@@ -1,8 +1,12 @@
-import { EmbedBuilder, Message } from "discord.js";
-import { PyeClient } from "../..";
-import config from "../../config";
+import { EmbedBuilder, Message } from 'discord.js';
+import { PyeClient } from '../..';
+import config from '../../config';
 
-export async function report(pyeClient: PyeClient, message: Message, url: string) {
+export async function report(
+  pyeClient: PyeClient,
+  message: Message,
+  url: string
+) {
   const reportChannel = await pyeClient.discordClient.channels.fetch(
     config.channels.reports_channel
   );
