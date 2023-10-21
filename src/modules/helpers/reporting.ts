@@ -11,20 +11,19 @@ export async function report(
     config.channels.reports_channel
   );
 
+  const displayName =
+    message.member!.displayName ??
+    message.author.displayName ??
+    message.author.username;
+
   if (reportChannel?.isTextBased()) {
     await reportChannel.send({
       embeds: [
-        new EmbedBuilder()
-          .setColor(0xff0000)
-          .setTitle('NSFW filter triggered')
-          .addFields({ name: 'at', value: `<#${message.channelId}>` })
-          .addFields({
-            name: 'by',
-            value: `${message.member?.displayName ?? ''} - ${
-              message.member?.id ?? ''
-            }`,
-          })
-          .addFields({ name: 'nsfw content', value: url }),
+        new EmbedBuilder().setColor(0xff0000)
+          .setDescription(`# NSFW Filter triggered\n**By:** ${displayName} (${message.author.id})
+        **In:** <#${message.channel.id}> (${message.channel.id})
+        **Content:** ***[Image](${url})***
+          `),
       ],
     });
   }
