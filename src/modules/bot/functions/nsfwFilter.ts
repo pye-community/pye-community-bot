@@ -1,12 +1,10 @@
 import { HfInference } from '@huggingface/inference';
-
-import config from '../../../config';
-
-const { HF_SECRET } = process.env;
-
 import { Message } from 'discord.js';
 import { PyeClient } from '../../..';
+import config from '../../../config';
 import { report } from '../../helpers/reporting';
+
+const { HF_SECRET } = process.env;
 
 interface Response {
   label: string;
@@ -33,7 +31,7 @@ export async function nsfwFilter(
     return;
 
   for (const attachment of message.attachments) {
-    const url = attachment[1]?.url;
+    const url = attachment[1]?.proxyURL;
     if (!url) break;
 
     const prediction = await predict(url);
