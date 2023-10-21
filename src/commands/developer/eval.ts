@@ -46,31 +46,28 @@ export async function execute(interaction: CommandInteraction) {
     )
       result = await result;
 
-    await interaction
-      .reply({
-        embeds: [
-          {
-            description: `## 📦 **\`Entrada\`**\n\`\`\`js\n${code}\n\`\`\`\n## 📤 **\`Salida\`**\n\`\`\`js\n${inspect(
-              result,
-              !!secret,
-              depth ?? 0
-            )}\n\`\`\``,
-            color: Colors.Green,
-          },
-        ],
-        ephemeral: !!secret,
-      });
+    await interaction.reply({
+      embeds: [
+        {
+          description: `## 📦 **\`Entrada\`**\n\`\`\`js\n${code}\n\`\`\`\n## 📤 **\`Salida\`**\n\`\`\`js\n${inspect(
+            result,
+            !!secret,
+            depth ?? 0
+          )}\n\`\`\``,
+          color: Colors.Green,
+        },
+      ],
+      ephemeral: !!secret,
+    });
   } catch (error: any) {
-    await interaction
-      .reply({
-        embeds: [
-          {
-            description: `## 📦 **\`Entrada\`**\n\`\`\`js\n${code}\n\`\`\`\n## 📤 **\`Salida\`**\n\`\`\`fix\n${error.message}\n\`\`\``,
-            color: Colors.Red,
-          },
-        ],
-        ephemeral: !!secret,
-      });
-      
+    await interaction.reply({
+      embeds: [
+        {
+          description: `## 📦 **\`Entrada\`**\n\`\`\`js\n${code}\n\`\`\`\n## 📤 **\`Salida\`**\n\`\`\`fix\n${error.message}\n\`\`\``,
+          color: Colors.Red,
+        },
+      ],
+      ephemeral: !!secret,
+    });
   }
 }

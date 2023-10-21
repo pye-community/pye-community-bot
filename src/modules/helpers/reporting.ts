@@ -53,10 +53,11 @@ export async function reportError(
               message.member?.user.id ?? ''
             }`,
           })
-          .addFields({ name: 'error', value: error.message }).addFields({
+          .addFields({ name: 'error', value: error.message })
+          .addFields({
             name: 'stack',
             value: `\`\`\`${error.stack ?? ''}\`\`\``,
-          })
+          }),
       ],
     });
   }

@@ -28,7 +28,10 @@ interface slashCommandData
 
 export interface SlashCommand {
   data: slashCommandData;
-  execute: (interaction: CommandInteraction, pyeClient?: PyeClient) => Promise<any>;
+  execute: (
+    interaction: CommandInteraction,
+    pyeClient?: PyeClient
+  ) => Promise<any>;
   autocomplete?: (
     interaction: AutocompleteInteraction,
     pyeClient?: PyeClient

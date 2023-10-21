@@ -22,7 +22,7 @@ export async function execute(
   });
 
   const ping = Date.now() - time;
-  
+
   await interaction.editReply({
     embeds: [
       new EmbedBuilder()

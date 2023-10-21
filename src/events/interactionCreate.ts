@@ -43,17 +43,8 @@ export default {
       await slashCommand?.execute(interaction, client);
     } catch (e) {
       reportError(client, interaction, e as Error).catch(console.error);
-      await interaction.reply({
-        embeds: [
-          {
-            description:
-              '### 🚨 ***`Lo sentimos, pero ocurrió un error al ejecutar el comando.`***',
-            color: Colors.Red,
-          },
-        ],
-        
-      }).catch(async () => {
-        await interaction.followUp({
+      await interaction
+        .reply({
           embeds: [
             {
               description:
@@ -61,8 +52,18 @@ export default {
               color: Colors.Red,
             },
           ],
+        })
+        .catch(async () => {
+          await interaction.followUp({
+            embeds: [
+              {
+                description:
+                  '### 🚨 ***`Lo sentimos, pero ocurrió un error al ejecutar el comando.`***',
+                color: Colors.Red,
+              },
+            ],
+          });
         });
-      });
     }
   },
 };
