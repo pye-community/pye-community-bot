@@ -7,7 +7,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
 } from 'discord.js';
-import { PyeClient, client } from '../../index';
+import { PyeClient, client } from '../../';
 
 export const data = new CommandBuilder()
   .setName('help')

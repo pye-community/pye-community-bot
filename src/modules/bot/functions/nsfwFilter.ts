@@ -1,8 +1,8 @@
 import { report } from '@/helpers/reporting';
 import { HfInference } from '@huggingface/inference';
 import { Message } from 'discord.js';
+import { PyeClient } from '../../../';
 import config from '../../../config';
-import { PyeClient } from '../../../index';
 
 interface Response {
   label: string;
