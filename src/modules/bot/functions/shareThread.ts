@@ -18,7 +18,7 @@ export const shareThreads = async (pyeClient: PyeClient,thread: ThreadChannel) =
             new EmbedBuilder()
               .setColor(Colors.Blue)
               .setDescription(`
-                :large_blue_diamond: <@${thread?.ownerId || 'User not found'}> ha creado una publicación en **${toCapitalize(forumChannel.name)}** : <#${thread.id}>, 
+                :large_blue_diamond: <@${thread?.ownerId || 'Un usuario'}> ha creado una publicación en **${toCapitalize(forumChannel.name)}** : <#${thread.id}>, 
                 > Si es una consulta y te agradecen obtendrás puntos de reputación por ayudar.
               `)
           ],
