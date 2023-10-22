@@ -22,7 +22,7 @@ Follow these simple steps to run the PyE Community bot on your server:
    CLIENT_ID=
    GUILD_ID=
    COHERE_AI_API_KEY=    # (optional)
-   REPORT_CHANNEL=       # (optional)
+   HF_SECRET=            # (optional)
    ```
 
 3. **Start the Bot:** Run the following command to start the bot:

@@ -1,8 +1,8 @@
-import { report } from '@/helpers/reporting';
-import { HfInference } from '@huggingface/inference';
-import { Message } from 'discord.js';
-import { PyeClient } from '../../../';
-import config from '../../../config';
+import { report } from "@/helpers/reporting";
+import { HfInference } from "@huggingface/inference";
+import { Message } from "discord.js";
+import config from "../../../config";
+import { PyeClient } from "src";
 
 interface Response {
   label: string;
@@ -29,7 +29,7 @@ export async function nsfwFilter(
     return;
 
   for (const attachment of message.attachments) {
-    const url = attachment[1]?.url;
+    const url = attachment[1]?.proxyURL;
     if (!url) break;
 
     const prediction = await predict(url);
