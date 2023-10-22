@@ -49,11 +49,11 @@ export async function execute(interaction: CommandInteraction) {
     await interaction.reply({
       embeds: [
         {
-          description: `## 📦 **\`Entrada\`**\n\`\`\`js\n${code}\n\`\`\`\n## 📤 **\`Salida\`**\n\`\`\`js\n${inspect(
-            result,
-            !!secret,
-            depth ?? 0
-          )}\n\`\`\``,
+          description: `## 📦 **\`Entrada\`**
+          \`\`\`js\n${code}\`\`\`
+          \n## 📤 **\`Salida\`**
+          \`\`\`js\n${inspect(result, !!secret, depth ?? 0)}
+          \`\`\``,
           color: Colors.Green,
         },
       ],
@@ -63,7 +63,11 @@ export async function execute(interaction: CommandInteraction) {
     await interaction.reply({
       embeds: [
         {
-          description: `## 📦 **\`Entrada\`**\n\`\`\`js\n${code}\n\`\`\`\n## 📤 **\`Salida\`**\n\`\`\`fix\n${error.message}\n\`\`\``,
+          description: `## 📦 **\`Entrada\`**
+          \`\`\`js${code}\`\`\`
+          \n## 📤 **\`Salida\`**
+          \`\`\`fix\n${error.message}
+          \`\`\``,
           color: Colors.Red,
         },
       ],

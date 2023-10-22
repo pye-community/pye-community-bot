@@ -1,4 +1,4 @@
-import { CommandInteraction, EmbedBuilder, Message } from 'discord.js';
+import { Colors, CommandInteraction, EmbedBuilder, Message } from 'discord.js';
 import { PyeClient } from '../..';
 import config from '../../config';
 
@@ -43,7 +43,7 @@ export async function reportError(
     await reportChannel.send({
       embeds: [
         new EmbedBuilder()
-          .setColor(0xff0000)
+          .setColor(Colors.Red)
           .setTitle('Error')
           .addFields({ name: 'at', value: `<#${message.channelId}>` })
           .addFields({ name: 'command', value: message.commandName })

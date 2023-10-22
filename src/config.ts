@@ -20,7 +20,7 @@ const config = {
   channels: {
     challenges_channel: ['1141493769699606528'],
     reports_channel: '1145160830741135470',
-    errors_channel: '1145160830741135470',
+    errors_channel: '1157031088317800510',
   },
   users: {
     owners: ['341077056026705930', '254720311717658624'],
