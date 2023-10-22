@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
-import { Colors, CommandInteraction } from 'discord.js';
+import { ChatInputCommandInteraction, Colors } from 'discord.js';
 import { inspect } from 'util';
 import { CommandBuilder } from './../../modules/bot/handlers';
 
@@ -32,10 +32,12 @@ export const data = new CommandBuilder()
   )
   .setCooldown(0);
 
-export async function execute(interaction: CommandInteraction) {
-  const code = interaction.options.get('code')?.value as string,
-    depth = interaction.options.get('depth')?.value as number,
-    secret = interaction.options.get('secret')?.value as boolean;
+export async function execute(
+  interaction: ChatInputCommandInteraction<'cached'>
+) {
+  const code = interaction.options.getString('code', true),
+    depth = interaction.options.getNumber('depth'),
+    secret = interaction.options.getBoolean('secret');
 
   try {
     let result = eval(code) as unknown;
