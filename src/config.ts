@@ -65,9 +65,7 @@ const config = {
       '1019719246655258705', // windows
     ],
     outputChannel: {
-      chat_programadores: {
-        id: '807385882868580392'
-      }
+      chat_programadores: '807385882868580392'
     }
   }
 };

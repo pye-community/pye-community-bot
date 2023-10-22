@@ -10,7 +10,7 @@ export const shareThreads = async (pyeClient: PyeClient,thread: ThreadChannel) =
     const forumChannel = thread.parent;
     if (config.shareThreads.forumTargets.includes(forumChannel.id)) {
       const reportChannel = await pyeClient.discordClient.channels.fetch(
-        config.shareThreads.outputChannel.chat_programadores.id
+        config.shareThreads.outputChannel.chat_programadores
       );
       if (reportChannel?.isTextBased()) {
         await reportChannel.send({
