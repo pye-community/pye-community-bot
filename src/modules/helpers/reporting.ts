@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from 'discord.js';
+import { Colors, EmbedBuilder, Message } from 'discord.js';
 import { PyeClient } from '../..';
 import config from '../../config';
 
@@ -14,17 +14,11 @@ export async function report(
   if (reportChannel?.isTextBased()) {
     await reportChannel.send({
       embeds: [
-        new EmbedBuilder()
-          .setColor(0xff0000)
-          .setTitle('NSFW filter triggered')
-          .addFields({ name: 'at', value: `<#${message.channelId}>` })
-          .addFields({
-            name: 'by',
-            value: `${message.member?.displayName ?? ''} - ${
-              message.member?.id ?? ''
-            }`,
-          })
-          .addFields({ name: 'nsfw content', value: url }),
+        new EmbedBuilder().setColor(Colors.Red)
+          .setDescription(`# NSFW Filter triggered\n**By:** <@!${message.author.id}> (${message.author.id})
+        **In:** <#${message.channel.id}> (${message.channel.id})
+        **Content:** ***[Image](${url})***
+          `),
       ],
     });
   }
