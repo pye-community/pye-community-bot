@@ -4,15 +4,14 @@
   "description": "A community bot created for https://discord.gg/programacion (PyE server)",
   "main": "build/index.js",
   "scripts": {
-    "start": "pnpm lint && pnpm format:check && pnpm build && node build/index.js",
+    "start": "pnpm typecheck && pnpm lint && pnpm run build && node build/index.js",
+    "lint": "eslint --ext .ts src",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
     "clean": "rimraf ./build",
     "prebuild": "pnpm run clean",
     "dev": "pnpm ts-node-dev --respawn --transpile-only src/index.ts dev",
     "build": "tsc",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
-    "format": "pnpm exec prettier --write .",
-    "format:check": "pnpm exec prettier --check .",
     "prepare": "husky install"
   },
   "author": {
@@ -34,7 +33,6 @@
     "eslint": "^8.50.0",
     "eslint-plugin-unicorn": "^48.0.1",
     "husky": "^8.0.3",
-    "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
