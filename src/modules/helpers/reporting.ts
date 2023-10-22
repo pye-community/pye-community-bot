@@ -11,8 +11,6 @@ export async function report(
     config.channels.reports_channel
   );
 
-  
-
   if (reportChannel?.isTextBased()) {
     await reportChannel.send({
       embeds: [
