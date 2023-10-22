@@ -62,6 +62,7 @@ export default {
                 color: Colors.Red,
               },
             ],
+            ephemeral: true
           });
         });
     }

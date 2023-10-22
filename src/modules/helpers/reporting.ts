@@ -14,17 +14,11 @@ export async function report(
   if (reportChannel?.isTextBased()) {
     await reportChannel.send({
       embeds: [
-        new EmbedBuilder()
-          .setColor(0xff0000)
-          .setTitle('NSFW filter triggered')
-          .addFields({ name: 'at', value: `<#${message.channelId}>` })
-          .addFields({
-            name: 'by',
-            value: `${message.member?.displayName ?? ''} - ${
-              message.member?.id ?? ''
-            }`,
-          })
-          .addFields({ name: 'nsfw content', value: url }),
+        new EmbedBuilder().setColor(Colors.Red)
+          .setDescription(`# NSFW Filter triggered\n**By:** <@!${message.author.id}> (${message.author.id})
+        **In:** <#${message.channel.id}> (${message.channel.id})
+        **Content:** ***[Image](${url})***
+          `),
       ],
     });
   }
@@ -42,22 +36,12 @@ export async function reportError(
   if (reportChannel?.isTextBased()) {
     await reportChannel.send({
       embeds: [
-        new EmbedBuilder()
-          .setColor(Colors.Red)
-          .setTitle('Error')
-          .addFields({ name: 'at', value: `<#${message.channelId}>` })
-          .addFields({ name: 'command', value: message.commandName })
-          .addFields({
-            name: 'by',
-            value: `${message.member?.user.username ?? ''} - ${
-              message.member?.user.id ?? ''
-            }`,
-          })
-          .addFields({ name: 'error', value: error.message })
-          .addFields({
-            name: 'stack',
-            value: `\`\`\`${error.stack ?? ''}\`\`\``,
-          }),
+        new EmbedBuilder().setDescription(`# Error Triggered\n
+        **By:** <@!${ message.member?.user.id ?? ''}> (${message.member?.user.id ?? ''}
+        **At:** <#${message.channel?.id ?? ''}>
+        **Command:** ${message.commandName}
+        **Error:** ${error.message}
+        **Stack:** \`\`\`${error.stack ?? ''}\`\`\``).setColor(Colors.Red),
       ],
     });
   }
