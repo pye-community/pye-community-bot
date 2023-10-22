@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from 'discord.js';
+import { Colors, EmbedBuilder, Message } from 'discord.js';
 import { PyeClient } from '../..';
 import config from '../../config';
 
@@ -11,16 +11,13 @@ export async function report(
     config.channels.reports_channel
   );
 
-  const displayName =
-    message.member!.displayName ??
-    message.author.displayName ??
-    message.author.username;
+  
 
   if (reportChannel?.isTextBased()) {
     await reportChannel.send({
       embeds: [
-        new EmbedBuilder().setColor(0xff0000)
-          .setDescription(`# NSFW Filter triggered\n**By:** ${displayName} (${message.author.id})
+        new EmbedBuilder().setColor(Colors.Red)
+          .setDescription(`# NSFW Filter triggered\n**By:** <@!${message.author.id}> (${message.author.id})
         **In:** <#${message.channel.id}> (${message.channel.id})
         **Content:** ***[Image](${url})***
           `),
