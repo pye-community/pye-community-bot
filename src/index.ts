@@ -31,9 +31,10 @@ export const client = {
 export type PyeClient = typeof client;
 
 client.handlers.loadEvents(client).catch(console.error);
-client.handlers.loadSlashCommands(client).catch(console.error);
-client.handlers
-  .registerSlashCommands(client.commands.map(x => x))
-  .catch(console.error);
+client.handlers.loadSlashCommands(client).then(() => {
+  client.handlers
+    .registerSlashCommands(client.commands.map(x => x))
+    .catch(console.error);
+}).catch(console.error);
 
 client.discordClient.login(config.bot.DISCORD_TOKEN).catch(console.error);
