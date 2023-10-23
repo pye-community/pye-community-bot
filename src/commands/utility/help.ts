@@ -8,6 +8,7 @@ import {
 } from 'discord.js';
 import { PyeClient, client } from '../..';
 import { CommandBuilder } from '../../modules/bot/handlers';
+import { toCapitalize } from '../../utils/text';
 
 export const data = new CommandBuilder()
   .setName('help')
@@ -273,8 +274,4 @@ function formatList(
   }
 
   return result;
-}
-
-function toCapitalize(str: string) {
-  return str.slice(0, 1).toUpperCase().concat(str.slice(1));
 }
