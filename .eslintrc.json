@@ -65,13 +65,7 @@
         "allowImplicit": true
       }
     ],
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
+    "indent": ["error", 2],
     "semi": ["error", "always"],
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/unbound-method": "off",
