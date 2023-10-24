@@ -1,4 +1,4 @@
-import { CommandBuilder } from '@/bot/handlers';
+import { CommandBuilder } from '#/bot/handlers';
 import {
   AutocompleteInteraction,
   Colors,
@@ -9,7 +9,7 @@ import {
 } from 'discord.js';
 
 import { PyeClient, client } from '../..';
-import { toCapitalize } from '@/text';
+import { toCapitalize } from '#/text';
 
 export const data = new CommandBuilder()
   .setName('help')

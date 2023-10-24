@@ -1,7 +1,7 @@
-import { checkCommandPermissions } from '@/bot/handlers';
+import { checkCommandPermissions } from '#/bot/handlers';
 import { Colors, Events, Interaction } from 'discord.js';
 import { PyeClient, client } from '..';
-import { reportError } from '@/helpers/reporting';
+import { reportError } from '#/helpers/reporting';
 
 export default {
   name: Events.InteractionCreate,

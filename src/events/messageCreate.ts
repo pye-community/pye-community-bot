@@ -1,4 +1,4 @@
-import { nsfwFilter } from '@/bot/functions/nsfwFilter';
+import { nsfwFilter } from '#/bot/functions/nsfwFilter';
 import { Events, Message } from 'discord.js';
 import { PyeClient, client } from '..';
 

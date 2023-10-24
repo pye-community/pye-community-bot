@@ -1,4 +1,4 @@
-import { CommandBuilder } from '@/bot/handlers';
+import { CommandBuilder } from '#/bot/handlers';
 import { Colors, CommandInteraction, EmbedBuilder } from 'discord.js';
 import { PyeClient } from '../../';
 

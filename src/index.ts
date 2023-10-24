@@ -3,7 +3,7 @@ import {
   loadSlashCommands,
   registerSlashCommands,
   SlashCommand,
-} from '@/bot/handlers';
+} from '#/bot/handlers';
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import config from './config';
 

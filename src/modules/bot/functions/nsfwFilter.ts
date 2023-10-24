@@ -1,4 +1,4 @@
-import { report } from "@/helpers/reporting";
+import { report } from "#/helpers/reporting";
 import { HfInference } from "@huggingface/inference";
 import { Message } from "discord.js";
 import config from "../../../config";

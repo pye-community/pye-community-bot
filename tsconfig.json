@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/modules/*", "src/utils/*"]
+      "#/*": ["src/modules/*", "src/utils/*"]
     }
   },
   "compileOnSave": true,
