@@ -7,7 +7,9 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
 } from 'discord.js';
-import { PyeClient, client } from '../../';
+
+import { PyeClient, client } from '../..';
+import { toCapitalize } from '@/text';
 
 export const data = new CommandBuilder()
   .setName('help')
@@ -273,8 +275,4 @@ function formatList(
   }
 
   return result;
-}
-
-function toCapitalize(str: string) {
-  return str.slice(0, 1).toUpperCase().concat(str.slice(1));
 }
