@@ -67,6 +67,7 @@ export async function reportError({
 
   const header = `${typeLabel} Triggered`;
   const content = buildPrettyEmbed(header, fields);
+  console.log('Report Error', error);
   await sendToChannel(client, config.channels.errors_channel, content);
 }
 
