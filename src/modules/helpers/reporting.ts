@@ -4,12 +4,13 @@ import {
   CommandInteraction,
   EmbedBuilder,
   Message,
+  MessageCreateOptions,
+  MessagePayload,
 } from "discord.js";
 import { PyeClient } from "../..";
 import config from "../../config";
 
-
-type Fields = {
+type Field = {
   name: string;
   content: string;
 };
@@ -17,9 +18,34 @@ type Fields = {
 type ReportError = {
   client: PyeClient;
   error?: Error;
-  extraFields?: Fields[];
+  extraFields?: Field[];
   typeLabel?: string;
 };
+
+export async function sendToChannel(client: PyeClient, channel: string, content: string | MessagePayload | MessageCreateOptions) {
+  const reportChannel = await client.discordClient.channels.fetch(channel);
+  if (reportChannel?.isTextBased()) {
+    await reportChannel.send(content);
+  }
+}
+
+/** build a custom embed */
+function buildPrettyEmbed(header: string, fields: Field[]): { embeds: EmbedBuilder[] }{
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setDescription(
+          `# ${header}\n
+          ${fields
+    .map((field) => {
+      return `**${field.name}:** ${field.content}`;
+    })
+    .join("\n")}`
+        )
+        .setColor(Colors.Red),
+    ],
+  };
+}
 
 /** Base and customizable way to send reports to a channel */
 export async function reportError({
@@ -33,33 +59,15 @@ export async function reportError({
     { name: "Stack", content: `\`\`\`${error.stack ?? ""}\`\`\`` },
   ] : [];
 
-  const fields: Fields[] = [
+  const fields: Field[] = [
     { name: "Server Time", content: new Date().toUTCString() },
     ...extraFields,
     ...errorFields,
   ];
 
-  const content = {
-    embeds: [
-      new EmbedBuilder()
-        .setDescription(
-          `# ${typeLabel} Triggered\n
-          ${fields
-    .map((field) => {
-      return `**${field.name}:** ${field.content}`;
-    })
-    .join("\n")}`
-        )
-        .setColor(Colors.Red),
-    ],
-  };
-
-  const reportChannel = await client.discordClient.channels.fetch(
-    config.channels.errors_channel
-  );
-  if (reportChannel?.isTextBased()) {
-    await reportChannel.send(content);
-  }
+  const header = `${typeLabel} Triggered`;
+  const content = buildPrettyEmbed(header, fields);
+  await sendToChannel(client, config.channels.errors_channel, content);
 }
 
 export async function reportMessageError(
@@ -90,15 +98,24 @@ export async function reportEventError(
   await reportError({ client, error, extraFields, typeLabel: "Event Error" });
 }
 
-export async function reportNSFW(
+export async function sendNSFWReport(
   client: PyeClient,
   message: Message,
   url: string
 ) {
-  const extraFields = [
+  const fields = [
+    {
+      name: "By",
+      content: `<@!${message.member?.user.id ?? ""}> (${
+        message.member?.user.id ?? ""
+      }`,
+    },
+    { name: "Server Time", content: new Date().toUTCString() },
     { name: "In", content: `<#${message.channel.id}> (${message.channel.id})` },
     { name: "Content", content: `***[Image](${url})***` },
-
   ];
-  await reportError({ client, extraFields, typeLabel: "NSFW Filter" });
+  const header = "NSFW Filter triggered";
+  const content = buildPrettyEmbed(header, fields);
+
+  await sendToChannel(client, config.channels.reports_channel, content);
 }
