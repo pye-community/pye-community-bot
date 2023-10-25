@@ -2,7 +2,7 @@ import { HfInference } from '@huggingface/inference';
 import { Message } from 'discord.js';
 import { PyeClient } from '../../..';
 import config from '../../../config';
-import { report } from '../../helpers/reporting';
+import { reportNSFW } from '../../helpers/reporting';
 
 const { HF_SECRET } = process.env;
 
@@ -37,7 +37,7 @@ export async function nsfwFilter(
     const prediction = await predict(url);
     if (prediction) {
       await message.delete();
-      report(pyeClient, message, url).catch(err => console.log(err));
+      await reportNSFW(pyeClient, message, url);
       return;
     }
   }
