@@ -38,7 +38,7 @@ const config = {
   },
   shareThreads: {
     forumTargets: [
-      "1166475833641279570", // ayuda-general
+      "1019686175490986124", // ayuda-general
       "1122376272450945025", // html-css
       "1122388627557732362", // javascript
       "1122390683106414652", // python
@@ -66,7 +66,7 @@ const config = {
       "1019719246655258705", // windows
     ],
     outputChannel: {
-      chat_programadores: "1165481320957349888",
+      chat_programadores: "807385882868580392",
     },
   },
 };
