@@ -6,8 +6,9 @@ import config from '../../../config';
 export const cohereAIHandler = async (thread: ThreadChannel) => {
   if (typeof thread.parentId !== 'string') return;
   if (config.channels.challenges_channel.includes(thread.parentId)) return;
-
-  if (thread.parent?.type == ChannelType.GuildForum) {
+  if (thread.parent?.type !== ChannelType.GuildForum) return; 
+  
+  try {
     const { COHERE_AI_API_KEY } = process.env;
     if (!COHERE_AI_API_KEY) {
       console.warn(
@@ -17,37 +18,33 @@ export const cohereAIHandler = async (thread: ThreadChannel) => {
     }
     cohere.init(COHERE_AI_API_KEY);
 
-    await thread.fetchStarterMessage().then(async function (result) {
-      if (!result) return;
-      if (result.content == '' && result.attachments.first()) {
-        await thread.sendTyping();
-        await thread.send(
-          'No puedo ayudarte si pones una imagen, por favor indica una descripción para poder ayudarte'
-        );
-      } else if (result.content !== '') {
-        await thread.sendTyping();
-        const response = await cohere.generate({
-          model: 'command-light',
-          prompt: result.content,
-          max_tokens: 300,
-          temperature: 0.9,
-          k: 0,
-          stop_sequences: [],
-          return_likelihoods: 'NONE',
-        });
-
-        const { generations } = response.body;
-        const translated = await translate(generations[0].text, {
-          to: 'es',
-        });
-        try {
-          // TODO: change it
-          const attachedMsg = `\n\n<@${result.author.id}> Recuerda que esto es solo una proximación para tu ayuda, aún puedes esperar que otros usuarios te respondan`;
-          await thread.send(`${translated.text} ${attachedMsg}`);
-        } catch (err) {
-          console.log(err);
-        }
-      }
+    const result = thread.messages.cache.first() ?? await thread.messages.fetch({ limit: 1 }).then(msgs => msgs.first()) ?? await thread.fetchStarterMessage() ?? null;
+    
+    if (!result || (result.content == '' && result.attachments.first())) return;
+     
+    await thread.sendTyping();
+    const response = await cohere.generate({
+      model: 'command-light',
+      prompt: result.content,
+      max_tokens: 300,
+      temperature: 0.9,
+      k: 0,
+      stop_sequences: [],
+      return_likelihoods: 'NONE',
     });
+
+    const body = response.body;
+    if (!body.generations || body.generations.length == 0) return;
+    const translated = await translate(body.generations[0].text, {
+      to: 'es',
+    });
+      
+    // TODO: change it
+    const attachedMsg = `\n\n<@${result.author.id}> Recuerda que esto es solo una proximación para tu ayuda, aún puedes esperar que otros usuarios te respondan`;
+    await thread.send(`${translated.text} ${attachedMsg}`);
+      
+  } catch (error) {
+    console.error(error);
   }
+  
 };
