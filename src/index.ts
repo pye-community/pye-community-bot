@@ -6,6 +6,8 @@ import {
 } from '#/bot/handlers';
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import config from './config';
+import { reportError } from '#/helpers/reporting';
+
 
 export const client = {
   config,
@@ -38,3 +40,11 @@ client.handlers.loadSlashCommands(client).then(() => {
 }).catch(console.error);
 
 client.discordClient.login(config.bot.DISCORD_TOKEN).catch(console.error);
+
+process.on("uncaughtException", async (error: Error) => {
+  await reportError({ client, error, typeLabel: "Uncaught Exception Error" });
+});
+
+process.on("unhandledRejection", async (error: Error) => {
+  await reportError({ client, error, typeLabel: "Unhandled Rejection Error" });
+});

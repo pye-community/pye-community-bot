@@ -1,7 +1,7 @@
 import { checkCommandPermissions } from '#/bot/handlers';
 import { Colors, Events, Interaction } from 'discord.js';
 import { PyeClient, client } from '..';
-import { reportError } from '#/helpers/reporting';
+import { reportMessageError } from '#/helpers/reporting';
 
 export default {
   name: Events.InteractionCreate,
@@ -42,7 +42,7 @@ export default {
     try {
       await slashCommand?.execute(interaction, client);
     } catch (e) {
-      reportError(client, interaction, e as Error).catch(console.error);
+      reportMessageError(client, interaction, e as Error).catch(console.error);
       await interaction
         .reply({
           embeds: [
