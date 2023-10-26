@@ -18,21 +18,21 @@ const config = {
    */
 
   channels: {
-    challenges_channel: ['1141493769699606528'],
-    reports_channel: '1145160830741135470',
-    errors_channel: '1157031088317800510',
+    challenges_channel: ["1141493769699606528"],
+    reports_channel: "1145160830741135470",
+    errors_channel: "1157031088317800510",
   },
   users: {
-    owners: ['341077056026705930', '254720311717658624'],
-    developers: ['401845716991082496', '852588734104469535'],
+    owners: ["341077056026705930", "254720311717658624"],
+    developers: ["401845716991082496", "852588734104469535"],
   },
   commands: {
     defaultcooldown: 5,
   },
   nsfw: {
-    model: 'Falconsai/nsfw_image_detection',
+    model: "Falconsai/nsfw_image_detection",
     target: {
-      id: '780597611496865792', // rol novato
+      id: "780597611496865792", // rol novato
     },
     threshold: 0.8,
   },
@@ -64,9 +64,9 @@ const config = {
       '1019719246655258705', // windows
     ],
     outputChannel: {
-      chat_programadores: '807385882868580392'
-    }
-  }
+      chat_programadores: "807385882868580392",
+    },
+  },
 };
 
 export default config;
