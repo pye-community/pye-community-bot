@@ -2,7 +2,7 @@ import {
   BaseChannel,
   Colors,
   CommandInteraction,
-  EmbedBuilder,
+  EmbedField,
   Message,
   MessageCreateOptions,
   MessagePayload,
@@ -10,15 +10,10 @@ import {
 import { PyeClient } from "../..";
 import config from "../../config";
 
-type Field = {
-  name: string;
-  content: string;
-};
-
 type ReportError = {
   client: PyeClient;
-  error?: Error;
-  extraFields?: Field[];
+  error: Error;
+  extraFields?: EmbedField[];
   typeLabel?: string;
 };
 
@@ -29,24 +24,6 @@ export async function sendToChannel(client: PyeClient, channel: string, content:
   }
 }
 
-/** build a custom embed */
-function buildPrettyEmbed(header: string, fields: Field[]): { embeds: EmbedBuilder[] }{
-  return {
-    embeds: [
-      new EmbedBuilder()
-        .setDescription(
-          `# ${header}\n
-          ${fields
-    .map((field) => {
-      return `**${field.name}:** ${field.content}`;
-    })
-    .join("\n")}`
-        )
-        .setColor(Colors.Red),
-    ],
-  };
-}
-
 /** Base and customizable way to send reports to a channel */
 export async function reportError({
   client,
@@ -54,19 +31,23 @@ export async function reportError({
   extraFields = [],
   typeLabel = '',
 }: ReportError) {
-  const errorFields = error ? [
-    { name: "Error", content: error.message },
-    { name: "Stack", content: `\`\`\`${error.stack ?? ""}\`\`\`` },
-  ] : [];
-
-  const fields: Field[] = [
-    { name: "Server Time", content: new Date().toUTCString() },
+  const fields: EmbedField[] = [
+    { name: "Error", value: error.message, inline: false },
+    { name: "Server Time", value: new Date().toUTCString(), inline: false },
     ...extraFields,
-    ...errorFields,
   ];
 
-  const header = `${typeLabel} Triggered`;
-  const content = buildPrettyEmbed(header, fields);
+  const content = {
+    embeds: [
+      {
+        title: `${typeLabel} Triggered`,
+        color: Colors.Red,
+        fields: fields,
+        description: `**Error Stack** :\`\`\`${error.stack ?? ""}\`\`\``,
+      },
+    ],
+  };
+
   console.log('Report Error', error);
   await sendToChannel(client, config.channels.errors_channel, content);
 }
@@ -79,12 +60,13 @@ export async function reportMessageError(
   const extraFields = [
     {
       name: "By",
-      content: `<@!${message.member?.user.id ?? ""}> (${
+      value: `<@!${message.member?.user.id ?? ""}> (${
         message.member?.user.id ?? ""
       }`,
+      inline: false,
     },
-    { name: "At", content: `<#${message.channel?.id ?? ""}>` },
-    { name: "Command", content: ` ${message.commandName}` },
+    { name: "At", value: `<#${message.channel?.id ?? ""}>`, inline: false },
+    { name: "Command", value: ` ${message.commandName}`, inline: false },
   ];
 
   await reportError({ client, error, extraFields });
@@ -95,7 +77,7 @@ export async function reportEventError(
   channel: BaseChannel,
   error: Error
 ) {
-  const extraFields = [{ name: "At", content: channel.url }];
+  const extraFields = [{ name: "At", value: channel.url, inline: false }];
   await reportError({ client, error, extraFields, typeLabel: "Event Error" });
 }
 
@@ -107,16 +89,25 @@ export async function sendNSFWReport(
   const fields = [
     {
       name: "By",
-      content: `<@!${message.member?.user.id ?? ""}> (${
+      value: `<@!${message.member?.user.id ?? ""}> (${
         message.member?.user.id ?? ""
       }`,
+      inline: false
     },
-    { name: "Server Time", content: new Date().toUTCString() },
-    { name: "In", content: `<#${message.channel.id}> (${message.channel.id})` },
-    { name: "Content", content: `***[Image](${url})***` },
+    { name: "Server Time", value: new Date().toUTCString(), inline: false },
+    { name: "In", value: `<#${message.channel.id}> (${message.channel.id})`, inline: false },
+    { name: "Content", value: `***[Image](${url})***`, inline: false},
   ];
-  const header = "NSFW Filter triggered";
-  const content = buildPrettyEmbed(header, fields);
+
+  const content = {
+    embeds: [
+      {
+        title: `NSFW Filter triggered`,
+        color: Colors.Red,
+        fields: fields,
+      },
+    ],
+  };
 
   await sendToChannel(client, config.channels.reports_channel, content);
 }
