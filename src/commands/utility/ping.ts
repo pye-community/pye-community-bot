@@ -1,6 +1,6 @@
 import { Colors, CommandInteraction, EmbedBuilder } from 'discord.js';
 import { PyeClient } from '../..';
-import { CommandBuilder } from '../../modules/bot/handlers';
+import { CommandBuilder } from '../../handlers';
 
 export const data = new CommandBuilder()
   .setName('ping')

@@ -14,8 +14,8 @@ import {
 } from 'discord.js';
 import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { PyeClient, client } from '../..';
-import config from '../../config';
+import { PyeClient, client } from '.';
+import config from './config';
 
 interface slashCommandData
   extends RESTPostAPIChatInputApplicationCommandsJSONBody {

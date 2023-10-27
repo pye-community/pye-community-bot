@@ -1,7 +1,7 @@
 import cohere from 'cohere-ai';
 import { ChannelType, ThreadChannel } from 'discord.js';
 import { translate } from 'google-translate-api-x';
-import config from '../../../config';
+import config from '../config';
 
 export const cohereAIHandler = async (thread: ThreadChannel) => {
   if (typeof thread.parentId !== 'string') return;
