@@ -7,8 +7,8 @@ import {
   MessageCreateOptions,
   MessagePayload,
 } from "discord.js";
-import { PyeClient } from "../..";
-import config from "../../config";
+import { PyeClient } from "..";
+import config from "../config";
 
 type ReportError = {
   client: PyeClient;

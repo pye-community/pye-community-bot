@@ -1,7 +1,7 @@
 import { ChannelType, Colors, EmbedBuilder, ThreadChannel } from 'discord.js';
-import { PyeClient } from '../../..';
-import config from '../../../config';
-import { toCapitalize } from '../../../utils/text';
+import { PyeClient } from '..';
+import config from '../config';
+import { toCapitalize } from '../utils/text';
 
 export const shareThreads = async (pyeClient: PyeClient,thread: ThreadChannel) => {
   if (typeof thread.parentId !== 'string') return;

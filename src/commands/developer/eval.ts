@@ -3,7 +3,7 @@
 
 import { Colors, CommandInteraction } from 'discord.js';
 import { inspect } from 'util';
-import { CommandBuilder } from './../../modules/bot/handlers';
+import { CommandBuilder } from '../../handlers';
 
 export const data = new CommandBuilder()
   .setName('eval')

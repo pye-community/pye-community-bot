@@ -7,7 +7,7 @@ import {
   StringSelectMenuInteraction,
 } from 'discord.js';
 import { PyeClient, client } from '../..';
-import { CommandBuilder } from '../../modules/bot/handlers';
+import { CommandBuilder } from '../../handlers';
 import { toCapitalize } from '../../utils/text';
 
 export const data = new CommandBuilder()

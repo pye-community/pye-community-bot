@@ -1,8 +1,8 @@
 import { Events, ThreadChannel } from "discord.js";
 import { PyeClient } from "..";
-import { shareThreads } from "../modules/bot/functions/shareThread";
-import { cohereAIHandler } from "../modules/bot/functions/threadsAi";
-import { reportEventError } from "../modules/helpers/reporting";
+import { shareThreads } from "../functions/shareThread";
+import { cohereAIHandler } from "../functions/threadsAi";
+import { reportEventError } from "../helpers/reporting";
 
 export default {
   name: Events.ThreadCreate,

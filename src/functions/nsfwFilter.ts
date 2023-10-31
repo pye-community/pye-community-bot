@@ -1,8 +1,8 @@
 import { HfInference } from '@huggingface/inference';
 import { Message } from 'discord.js';
-import { PyeClient } from '../../..';
-import config from '../../../config';
-import { sendNSFWReport } from '../../helpers/reporting';
+import { PyeClient } from '..';
+import config from '../config';
+import { sendNSFWReport } from '../helpers/reporting';
 
 const { HF_SECRET } = process.env;
 

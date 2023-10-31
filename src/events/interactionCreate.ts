@@ -1,7 +1,7 @@
 import { Colors, Events, Interaction } from 'discord.js';
 import { PyeClient, client } from '..';
-import { checkCommandPermissions } from '../modules/bot/handlers';
-import { reportMessageError } from '../modules/helpers/reporting';
+import { checkCommandPermissions } from '../handlers';
+import { reportMessageError } from '../helpers/reporting';
 
 export default {
   name: Events.InteractionCreate,

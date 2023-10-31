@@ -5,8 +5,8 @@ import {
   loadEvents,
   loadSlashCommands,
   registerSlashCommands,
-} from './modules/bot/handlers';
-import { reportError } from './modules/helpers/reporting';
+} from './handlers';
+import { reportError } from './helpers/reporting';
 
 export const client = {
   config,
